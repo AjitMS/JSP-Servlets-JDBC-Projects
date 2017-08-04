@@ -1,4 +1,4 @@
-package com.basic;
+package com.basic.Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
