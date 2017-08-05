@@ -10,7 +10,7 @@
 	
 		// get the cookies from browser window
 		
-		Cookie[] cookies = request.getCookies();
+		Cookie cookies[] = request.getCookies();
 		
 		//find out favorite language
 		
