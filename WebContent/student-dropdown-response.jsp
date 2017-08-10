@@ -4,7 +4,7 @@
 	
 		The Student is Confirmed: ${param.firstname} ${param.lastname }
 		from ${param.country } 
-		
+			
 		<br /><br />
 		Favorite Programming Languages are: 
 		<!-- Display list of Programming languages -->

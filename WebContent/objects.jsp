@@ -21,7 +21,7 @@
 	%>
 
 	<br /> Request UserName is
-	<%=userName%>
+	<%=userName%>a
 	<br /> Session UserName is
 	<%=session.getAttribute("sessionUserName")%>
 	<br /> Application UserName is

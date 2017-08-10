@@ -14,5 +14,8 @@
 	</div>
 
 	<%@ include file="/newtest.jsp"%>
+	<%@ include file="/my-header.html" %>
+	<%@ include file="/my-footer.jsp" %>
+	
 </body>
 </html>

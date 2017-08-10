@@ -30,6 +30,7 @@ public class SimpleServlet extends HttpServlet {
 		String username = request.getParameter("name");
 		HttpSession session = request.getSession();
 		ServletContext context = request.getServletContext();
+		
 		if (username != "" && username != null)// shouldn't be null
 		{	session.setAttribute("SavedUserName", username);
 			context.setAttribute("SavedUserName", username);
