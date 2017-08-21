@@ -2,7 +2,8 @@ package com.LoginApp;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.LoginApp.dto.User.*;
+
+import com.LoginApp.User.*;
 
 public class LoginService {
 	

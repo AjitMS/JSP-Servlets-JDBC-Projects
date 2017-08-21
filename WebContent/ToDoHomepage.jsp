@@ -57,7 +57,7 @@
     
             Name: <input type="text" value="${task.name}" />
           Priority: <input type="text" value="${task.priority}" />
-          Date: <input type="text" value="${task.date}" />#000000
+          Date: <input type="text" value="${task.date}" />
 		<hr style="border: 1px ridge  lightgrey;" />​
 
 	</c:forEach>

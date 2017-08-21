@@ -16,7 +16,7 @@
 </head>
 <body>
 
-	<form action="todolist.jsp" method="post">
+	<form  action="todolist.jsp" method="post">
 		<br /> Enter Task: <input type="text" name="task" /> <input
 			type="submit" name="submit" />
 	</form>
