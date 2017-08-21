@@ -20,8 +20,10 @@
 		<br /> Enter Task: <input type="text" name="task" /> <input
 			type="submit" name="submit" />
 	</form>
+	<c:set var="itemList" value="${sessionScope['list']}"/>
 	<%
-		List<String> itemList = (List<String>) session.getAttribute("list");
+		
+		List<String> itemList = (List<String>) session.getAttribute("list")    ;
 		String item = request.getParameter("task");
 		if (itemList == null) {
 			itemList = new ArrayList<>();

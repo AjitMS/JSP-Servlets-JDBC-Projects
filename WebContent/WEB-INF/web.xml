@@ -14,11 +14,8 @@
 	<servlet-mapping>
 	<servlet-name>xmlservlet</servlet-name>
 	<url-pattern>/xmlServletpath</url-pattern>
-	
-	
 	</servlet-mapping>
 	
-
 	
 </web-app>
 	
