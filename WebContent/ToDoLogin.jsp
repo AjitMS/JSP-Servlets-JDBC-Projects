@@ -16,42 +16,44 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body style="background-color: #E8E8E8;">
 
-	<%
-		String temp = (String) request.getAttribute("error");
-	%>
-
-	<c:if test="${temp eq 'error'}">
-
-		window.alert("Invalid");
+		<c:if test="${error eq 'error'}">
+		<script type="text/javascript">
+			window.alert(' Email or Password is incorrect. Try Again ')
+		</script>
 	</c:if>
-	<%
-		String test = (String) session.getAttribute("error");
-		if (test == null)
-			out.write("Password or UserName is Incorrect User Name or Password incorrect ! Try Again !");
-	%>
-
-	<div align="center" class="container">
-		<h2>ToDo App Login form</h2>
-		<form method="post" action="ToDoLoginController">
-			<div class="form-group">
+	
+	<div class="container" align = "center" style="width: 500px; background-color: white; margin-top:150px;">
+	
+	<table class="table">
+	<thead>	
+	<tr><div><h2> Please Log in</h2></div></tr>
+	</thead>
+	<tbody>
+	<form action="ToDoLoginController" method="post">
+	<tr> <div class="form-group">
 				<label for="email">Email:</label> <input type="email"
 					class="form-control" id="email" placeholder="Enter email"
 					name="email">
-			</div>
-			<div class="form-group">
+			</div>  </tr>
+	
+	<tr>  <div class="form-group">
 				<label for="password">Password:</label> <input type="password"
 					class="form-control" id="pwd" placeholder="Enter password"
 					name="password">
-			</div>
+			</div>  </tr>
+	<tr>  </div>ToDoControllerToDoController"> 
 			<div class="checkbox">
 				<label><input type="checkbox" name="remember">
 					Remember me</label>
-			</div>
-			<button type="submit" class="btn btn-success">Submit</button>
-			Not yet Registered? <a href="ToDoRegister.html"> Register Now !</a>
-		</form>
+			</div>  </tr>
+	
+	<tr>  <div><button type="submit" class="btn btn-success" style="width: 460px;">Submit</button></div></tr>
+			<tr> Not yet Registered? <a href="ToDoRegister.html"><i> Register Now !</i></a> </tr>
+	</form>
+	</tbody>
+	</table>
 	</div>
 
 </body>

@@ -1,9 +1,6 @@
-<%@ page language="java" contentType="text/html charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.ArrayList,java.util.List,com.ToDoApp.*"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
+	<%@ page import="com.ToDoApp.*"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -28,14 +25,12 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/i18n/defaults-*.min.js"></script>
 
-<title>To-Do HomePage</title>
+<title>Update Task</title>
 </head>
-
 <body>
-
 	<div style="margin: 10px;" class="panel panel-success">
 		<div class="panel-heading">
-			<h2 align="center">Working ToDo App</h2>
+			<h2 align="center">Update Task</h2>
 			<div style="position: relative; bottom: 50px; float: right;">
 				<form action="ToDoLogin.jsp">
 					<button title="Click to Logout" type="submit"
@@ -47,18 +42,19 @@
 		<div class="panel-body">
 			<div class="cointainer"
 				style="margin-left: 20px; margin-top: 20px; margin-right: 400px;">
-
-				<form action="ToDoController" method="post">
+			<% out.print(request.getParameter("task")); %>	
+				
+				Name is: ${task.name}
+				Priority is: ${task.priority}
+				<form action="ToDoController" method="get">
 					<div class="form-group">
-						<label for="text">Task:</label> <input title="Enter Task Name"
-							type="text" class="form-control" id="task"
-							placeholder="Enter Task Name" name="name">
+						<label for="text">Task:</label> <input type="text"
+							class="form-control" name="name" id="task" value=${task.name}>
 					</div>
 					<div class="form-group">
 						<label for="date">Date:</label> <input title="Select Date"
-							type="date" class="form-control" id="date" name="date">
+							type="date" class="form-control" name="date" value=${task.date}>
 					</div>
-
 
 					<div class="form-group">
 						<label for="priority">Priority:</label><br> <select
@@ -69,53 +65,16 @@
 						</select>
 					</div>
 					<br>
-					<button title="Add Task to ToDo List" type="submit"
-						class="btn btn-success">Submit</button>
+					
+					<button href="ToDoController?action=update&taskName=${task.name}" title="Add Task to ToDo List" type="submit"
+						class="btn btn-success">Confirm</button>
 				</form>
 				<hr style="border: 1px ridge lightgrey;" />
 
 			</div>
-			<div>
-				<h3 align="center">ToDo List</h3>
-			</div>
-			<div>
-				<table class="table table-striped">
-					<thead>
-
-						<tr>
-							<th>Task Name</th>
-							<th>Date</th>
-							<th>Priority</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<c:forEach items="${taskList}" var="task">
-						<tbody>
-							<tr>
-								<td>${task.name}</td>
-								<td>${task.date}</td>
-								<td>${task.priority}</td>
-								<td>
-								
-								<form action="ToDoUpdateController" method="get">
-					<button href="ToDoUpdateController?action=delete" title="Delete Task" type="submit"
-						class="btn btn-danger">Delete</button> |
-						<button href="ToDoUpdateController?action=update" title="Update Task" type="submit"
-						class="btn btn-primary">Update</button>
-				</form>
-								</td>
-							</tr>
-					</c:forEach>
-					</tbody>
-				</table>
-			</div>
-			<div align="center" class="panel-footer">
-				<h2>Thank You !</h2>
-			</div>
 		</div>
+
 	</div>
-	<br>
-	<br>
 
 </body>
 </html>

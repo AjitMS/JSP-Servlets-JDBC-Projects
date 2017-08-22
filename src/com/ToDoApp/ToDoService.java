@@ -50,18 +50,37 @@ public class ToDoService {
 		return false;
 	}
 
-	public void toDatabase(Task task) throws ClassNotFoundException, SQLException {
+	public static boolean isDuplicate(Task task) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "root");
-		PreparedStatement pstmt = con.prepareStatement("insert into ToDoDB values(?,?,?)");
-		pstmt.setString(1, task.getName());
-		pstmt.setString(2, task.getPriority());
-		pstmt.setString(3, task.getDate());
-		int upd = pstmt.executeUpdate();
-		System.out.println("Successfully updated " + upd + " entries !");
-
+		String sql = "select * from ToDoDB";
+		PreparedStatement pstmt = con.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		while (rs.next()) {
+			if (task.getName().equalsIgnoreCase(rs.getString(1)))
+				return true;
+		}
+		return false;
 	}
 
+	public boolean toDatabase(Task task) throws ClassNotFoundException, SQLException {
+
+		if (!(isDuplicate(task))) {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root",
+					"root");
+			PreparedStatement pstmt = con.prepareStatement("insert into ToDoDB values(?,?,?)");
+			pstmt.setString(1, task.getName());
+			pstmt.setString(2, task.getPriority());
+			pstmt.setString(3, task.getDate());
+			int upd = pstmt.executeUpdate();
+			System.out.println("Successfully updated " + upd + " entries !");
+			return true;
+		}
+
+		return false;
+	}
+	
 	public List<Task> fromDatabase() throws ClassNotFoundException, SQLException {
 		List<Task> taskList = new ArrayList<>();
 		Class.forName("com.mysql.jdbc.Driver");
@@ -76,4 +95,21 @@ public class ToDoService {
 		}
 		return taskList;
 	}
+	public void update(Task task, String taskName) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "root");
+		PreparedStatement pstmt = con.prepareStatement("update ToDoDB set name=?, date=?, priority=? where name=?");
+		pstmt.setString(1, "task.getName()");
+		pstmt.setString(2, "task.getDate()");
+		pstmt.setString(3, "task.getPriority()");
+		pstmt.setString(1, "taskName");
+		pstmt.executeUpdate();
+	}
+	
+	public void delete(String taskName) {
+		
+	}
+	
+	
+	
 }

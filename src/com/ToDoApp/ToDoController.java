@@ -26,17 +26,25 @@ public class ToDoController extends HttpServlet {
 	 *      response)
 	 */
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		//Update
+	}
+	
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		
 		ToDoService service = new ToDoService();
-
 		String name, priority, date;
 		@SuppressWarnings("unchecked")
 		List<Task> taskList = (List<Task>) session.getAttribute("taskList");
 		if (taskList == null) {
 			taskList = new ArrayList<>();
-			session.setAttribute("taskList", taskList);
+			request.getServletContext().setAttribute("taskList", taskList);
+//			session.setAttribute("taskList", taskList);
 		}
 		name = request.getParameter("name");
 		priority = request.getParameter("priority");
@@ -45,11 +53,19 @@ public class ToDoController extends HttpServlet {
 		if (service.isProper(task)) {
 			// Write write.logic() here
 			try {
-				service.toDatabase(task);
-				taskList = service.fromDatabase(); // get List
-				session.setAttribute("taskList", taskList);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
-				dispatcher.forward(request, response);
+				if (service.toDatabase(task)) {
+					taskList = service.fromDatabase(); // get List
+					request.getServletContext().setAttribute("taskList", taskList);
+					//session.setAttribute("taskList", taskList);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+					dispatcher.forward(request, response);
+				} else {
+					taskList = service.fromDatabase(); // get List
+					request.getServletContext().setAttribute("taskList", taskList);
+					//session.setAttribute("taskList", taskList);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+					dispatcher.forward(request, response);
+				}
 			} catch (ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}

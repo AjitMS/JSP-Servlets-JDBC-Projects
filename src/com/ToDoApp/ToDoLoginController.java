@@ -35,7 +35,8 @@ public class ToDoLoginController extends HttpServlet {
 				dispatcher.forward(request, response);
 			} else {
 				request.setAttribute("error", "error");
-				response.sendRedirect("ToDoLogin.jsp");
+				dispatcher = request.getRequestDispatcher("ToDoLogin.jsp");
+				dispatcher.forward(request, response);
 			}
 
 		} catch (ClassNotFoundException | SQLException e) {
