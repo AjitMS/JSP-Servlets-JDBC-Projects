@@ -78,6 +78,7 @@
 			<div>
 				<h3 align="center">ToDo List</h3>
 			</div>
+		
 			<div>
 				<table class="table table-striped">
 					<thead>
@@ -90,19 +91,35 @@
 						</tr>
 					</thead>
 					<c:forEach items="${taskList}" var="task">
+						<%
+							//request.setAttribute("task",${task.name});
+						%>
 						<tbody>
 							<tr>
 								<td>${task.name}</td>
 								<td>${task.date}</td>
 								<td>${task.priority}</td>
 								<td>
-								
-								<form action="ToDoUpdateController" method="get">
-					<button href="ToDoUpdateController?action=delete" title="Delete Task" type="submit"
-						class="btn btn-danger">Delete</button> |
-						<button href="ToDoUpdateController?action=update" title="Update Task" type="submit"
-						class="btn btn-primary">Update</button>
-				</form>
+									<form action="ToDoUpdateController" method="get">
+
+										<c:set var="taskname" value="${task.name}" scope="request" />
+										<c:url var="del" value="ToDoUpdateController?action=delete">
+											<c:param name="taskname" value="${task.name}" />
+											
+										</c:url>
+										<p>
+											<a href="${del}">Delete</a>
+											<c:url var="upd" value="ToDoUpdateController?action=update">
+												<c:param name="taskname" value="${task.name}" />
+											</c:url>
+										<p>
+											<a href="${upd}">Update</a>
+
+											<%-- <a href="<c:url value = "ToDoUpdateController?action=delete"/>"
+											title="Delete Task">Delete</a> | <a
+											href="<c:url value = "ToDoUpdateController?action=update"/>"
+											title="Update Task">Update</a> --%>
+									</form>
 								</td>
 							</tr>
 					</c:forEach>

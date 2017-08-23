@@ -2,6 +2,7 @@ package com.ToDoApp;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +16,16 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/ToDoUpdateController")
 public class ToDoUpdateController extends HttpServlet {
+
+	ToDoService service;
+
+	@Override
+	public void init() throws ServletException {
+
+		service = new ToDoService();
+
+	}
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -24,17 +35,49 @@ public class ToDoUpdateController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String action = request.getParameter("action");
-		if(!(action==null))
-		System.out.println("Came HERE!!!!"+action);
-		if (action.equals("update")) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoUpdate.jsp");
-			dispatcher.forward(request, response);
-		} else if (action.equals("delete")) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoDelete.jsp");
-			dispatcher.forward(request, response);
+		RequestDispatcher dispatcher;
+		Task task = null;
+
+		String taskName = (String) request.getParameter("taskname");
+		if (taskName == null) {
+			System.out.println("Task found is null");
+		} else {
+			System.out.println("Task found is " + taskName + " ");
+
+			String action = request.getParameter("action");
+			System.out.println("action in controller is: " + action);
+			try {
+				task = service.getTask(taskName);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				System.out.println("Task Name: " + task.getName());
+				System.out.println("Priority: " + task.getPriority());
+				System.out.println("Date: " + task.getDate());
+			} catch (Exception E) {
+				System.out.println("NullPointer Exception");
+			}
+			if (action == null)
+				System.out.println("NOT WORKING !!!");
+			else {
+				if (action.equals("update")) {
+					request.setAttribute("action", "update");
+					request.setAttribute("task", task);
+					dispatcher = request.getRequestDispatcher("ToDoUpdate.jsp");
+					dispatcher.forward(request, response);
+				}
+				if (action.equals("delete")) {
+					request.setAttribute("task", task);
+					request.setAttribute("action", "delete");
+					dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+					dispatcher.forward(request, response);
+				}
+			}
 		}
-		
 	}
 
 	/**
@@ -44,30 +87,52 @@ public class ToDoUpdateController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String taskName = request.getParameter("taskName");
-		String action = request.getParameter("action");
-		ToDoService service = new ToDoService();
-		if (action.equals("update")) {
-			try {
+		String taskName = request.getParameter("name");
 
-				String priority = request.getParameter("priority");
-				String name = request.getParameter("name");
-				String date = request.getParameter("date");
-				Task task = new Task(name, date, priority);
-				service.update(task, taskName);
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
+		System.out.println("new name: " + taskName);
+		String priority = request.getParameter("priority");
+		String date = request.getParameter("date");
+
+		System.out.println("new Date: " + date);
+		String old_taskName = (String) request.getParameter("old_taskname");
+		String action = (String) request.getParameter("command");
+		Task task = new Task(taskName, date, priority);
+		service = new ToDoService();
+		try {
+			if (action != null) {
+				switch (action) {
+				case "delete":
+					try {
+						service.delete(task);
+						List<Task> taskList = service.fromDatabase();
+						request.getServletContext().setAttribute("taskList", taskList);
+						//session.setAttribute("taskList", taskList);
+						RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+						dispatcher.forward(request, response);
+					} catch (ClassNotFoundException | SQLException e1) {
+						e1.printStackTrace();
+					}
+					break;
+				case "update":
+					try {
+						service.update(task, old_taskName);
+					} catch (ClassNotFoundException | SQLException e) {
+						e.printStackTrace();
+					}
+					List<Task> taskList = service.fromDatabase();
+					request.getServletContext().setAttribute("taskList", taskList);
+					//session.setAttribute("taskList", taskList);
+					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+					dispatcher.forward(request, response);
+					break;
+				default:
+					throw new IllegalArgumentException("Invalid Command: " + action);
+				}
 			}
-		} else if (action.equals("delete")) {
-			service.delete(taskName);
+		} catch (Exception e) {
+			System.out.println("Naacho");
 		}
 
-		// String uri = request.getRequestURI();
-		// if (uri.endsWith("/update")) {
-		// service.update(response, request);
-		// } else if (uri.endsWith("/delete")) {
-		// service.delete(response, request);
-		// }
 	}
 
 }

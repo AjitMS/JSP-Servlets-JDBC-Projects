@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ page import="com.ToDoApp.*"%>
+<%@ page import="com.ToDoApp.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -42,18 +44,24 @@
 		<div class="panel-body">
 			<div class="cointainer"
 				style="margin-left: 20px; margin-top: 20px; margin-right: 400px;">
-			<% out.print(request.getParameter("task")); %>	
+				<%
+					// out.print(request.getParameter("task"));
+				%>
+					also action is ${action}
+				<form action="ToDoUpdateController" method="post">
 				
-				Name is: ${task.name}
-				Priority is: ${task.priority}
-				<form action="ToDoController" method="get">
+				<%-- <c:set var="action" value="update" scope="request"/>
+				<c:set var="old_taskname" value="${task.name}" scope="request"/> --%>
+				<input type="hidden" name="command" value="update">
+				  <input type="hidden" name="old_taskname" value="${task.name}">
+				
 					<div class="form-group">
 						<label for="text">Task:</label> <input type="text"
-							class="form-control" name="name" id="task" value=${task.name}>
+							class="form-control" name="name" id="task" value="${task.name}">
 					</div>
 					<div class="form-group">
 						<label for="date">Date:</label> <input title="Select Date"
-							type="date" class="form-control" name="date" value=${task.date}>
+							type="date" class="form-control" name="date" value="${task.date}">
 					</div>
 
 					<div class="form-group">
@@ -65,8 +73,8 @@
 						</select>
 					</div>
 					<br>
-					
-					<button href="ToDoController?action=update&taskName=${task.name}" title="Add Task to ToDo List" type="submit"
+
+					<button title="Add Task to ToDo List" type="submit"
 						class="btn btn-success">Confirm</button>
 				</form>
 				<hr style="border: 1px ridge lightgrey;" />

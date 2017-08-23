@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/ToDoController")
 public class ToDoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	List<Task> taskList;
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -33,9 +33,13 @@ public class ToDoController extends HttpServlet {
 	
 	
 	
+	
+
+	List<Task> taskList;
+	HttpSession session;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		HttpSession session = request.getSession();
+		session = request.getSession();
 		
 		ToDoService service = new ToDoService();
 		String name, priority, date;
@@ -53,8 +57,8 @@ public class ToDoController extends HttpServlet {
 		if (service.isProper(task)) {
 			// Write write.logic() here
 			try {
+				taskList = service.fromDatabase(); // get List
 				if (service.toDatabase(task)) {
-					taskList = service.fromDatabase(); // get List
 					request.getServletContext().setAttribute("taskList", taskList);
 					//session.setAttribute("taskList", taskList);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
@@ -62,6 +66,7 @@ public class ToDoController extends HttpServlet {
 				} else {
 					taskList = service.fromDatabase(); // get List
 					request.getServletContext().setAttribute("taskList", taskList);
+					request.setAttribute("error", "error");
 					//session.setAttribute("taskList", taskList);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
 					dispatcher.forward(request, response);
