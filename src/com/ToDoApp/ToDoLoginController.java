@@ -28,7 +28,7 @@ public class ToDoLoginController extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		email = request.getParameter("email");
 		password = request.getParameter("password");
-		ToDoService service = new ToDoService();
+		ToDoDBService service = new ToDoDBService();
 		try {
 			if (service.authenticateUser(email, password)) {
 				dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");

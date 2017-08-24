@@ -2,10 +2,8 @@ package com.ToDoApp;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +17,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/ToDoController")
 public class ToDoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
@@ -28,52 +25,64 @@ public class ToDoController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//Update
+
+		// REMAINING ONLY GET METHOD FOR UPDATE : PENDING
+		// Update
 	}
-	
-	
-	
-	
 
 	List<Task> taskList;
 	HttpSession session;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		session = request.getSession();
-		
+
 		ToDoService service = new ToDoService();
-		String name, priority, date;
-		@SuppressWarnings("unchecked")
-		List<Task> taskList = (List<Task>) session.getAttribute("taskList");
-		if (taskList == null) {
-			taskList = new ArrayList<>();
-			request.getServletContext().setAttribute("taskList", taskList);
-//			session.setAttribute("taskList", taskList);
+		String action = request.getParameter("action");
+		try {
+			service.loadList(request, response);
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
 		}
-		name = request.getParameter("name");
-		priority = request.getParameter("priority");
-		date = request.getParameter("date");
-		Task task = new Task(name, priority, date);
-		if (service.isProper(task)) {
-			// Write write.logic() here
+		switch (action) {
+
+		case "add":
 			try {
-				taskList = service.fromDatabase(); // get List
-				if (service.toDatabase(task)) {
-					request.getServletContext().setAttribute("taskList", taskList);
-					//session.setAttribute("taskList", taskList);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
-					dispatcher.forward(request, response);
-				} else {
-					taskList = service.fromDatabase(); // get List
-					request.getServletContext().setAttribute("taskList", taskList);
-					request.setAttribute("error", "error");
-					//session.setAttribute("taskList", taskList);
-					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
-					dispatcher.forward(request, response);
-				}
-			} catch (ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
+				service.addTask(request, response);
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
 			}
+			break;
+		case "delete":
+			service.deleteTask(request, response);
+			break;
+		case "update":
+			try {
+				service.updateTask(request, response);
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
+			}
+			break;
+		case "load":
+			try {
+				service.loadList(request, response);
+			} catch (ClassNotFoundException | SQLException e1) {
+
+				e1.printStackTrace();
+			}
+			break;
+		default:
+			try {
+				service.loadList(request, response);
+			} catch (ClassNotFoundException | SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		try {
+			System.out.println("Reacghed out of switch");
+			service.loadList(request, response);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

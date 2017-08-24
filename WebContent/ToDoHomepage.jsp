@@ -33,22 +33,29 @@
 
 <body>
 
+	<c:if test="${error} == 'error'">
+		<script type="text/javascript">
+			window.alert('Task already Exists');
+		</script>
+	</c:if>
+
 	<div style="margin: 10px;" class="panel panel-success">
 		<div class="panel-heading">
 			<h2 align="center">Working ToDo App</h2>
-			<div style="position: relative; bottom: 50px; float: right;">
-				<form action="ToDoLogin.jsp">
-					<button title="Click to Logout" type="submit"
-						class="btn btn-danger">Logout</button>
-				</form>
-			</div>
 		</div>
-		<div style="float: clear"></div>
+		<div style="position: relative; bottom: 50px; float: right;">
+			<form action="ToDoLogin.jsp">
+				<button title="Click to Logout" type="submit" class="btn btn-danger">Logout</button>
+			</form>
+		</div>
+
 		<div class="panel-body">
 			<div class="cointainer"
 				style="margin-left: 20px; margin-top: 20px; margin-right: 400px;">
 
 				<form action="ToDoController" method="post">
+				
+				<input type="hidden" name="action" value="add"/>
 					<div class="form-group">
 						<label for="text">Task:</label> <input title="Enter Task Name"
 							type="text" class="form-control" id="task"
@@ -78,7 +85,7 @@
 			<div>
 				<h3 align="center">ToDo List</h3>
 			</div>
-		
+
 			<div>
 				<table class="table table-striped">
 					<thead>
@@ -100,12 +107,12 @@
 								<td>${task.date}</td>
 								<td>${task.priority}</td>
 								<td>
-									<form action="ToDoUpdateController" method="get">
+									<form action="ToDoController" method="get">
 
 										<c:set var="taskname" value="${task.name}" scope="request" />
 										<c:url var="del" value="ToDoUpdateController?action=delete">
 											<c:param name="taskname" value="${task.name}" />
-											
+
 										</c:url>
 										<p>
 											<a href="${del}">Delete</a>

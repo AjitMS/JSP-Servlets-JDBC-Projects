@@ -1,153 +1,114 @@
 package com.ToDoApp;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ToDoService {
-	static Map<String, String> pairMap;
+	ToDoDBService serviceDB;
+	HttpSession session;
+	RequestDispatcher dispatcher;
 
-	// public ToDoService() throws ClassNotFoundException, SQLException {
-	// Class.forName("com.mysql.jdbc.Driver");
-	// Connection con =
-	// DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false",
-	// "root", "root");
-	// String sql = "select * from ToDoLoginPairs";
-	// PreparedStatement pstmt = con.prepareStatement(sql);
-	// ResultSet rs = pstmt.executeQuery();
-	// while (rs.next()) {
-	//
-	// if (pairMap == null)
-	// pairMap = new HashMap<>();
-	// pairMap.put(rs.getString(1), rs.getString(2));
-	// System.out.println("Printing: "+rs.getString(1));
-	// }
-	// }
-
-	public boolean isProper(Task task) {
-		if (task.getName().isEmpty() || task.getDate().isEmpty() || task.getPriority().isEmpty())
-			return false;
-		return true;
+	public void loadList(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, ClassNotFoundException, SQLException {
+		session = request.getSession();
+		serviceDB = new ToDoDBService();
+		List<Task> taskList = (List<Task>) serviceDB.loadListDB(); // session.getAttribute("taskList");
+		if (taskList == null)
+			taskList = new ArrayList<>();
+		request.getServletContext().setAttribute("taskList", taskList);
+		// session.setAttribute("taskList", taskList);
+		dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+		dispatcher.forward(request, response);
 	}
 
-	public boolean authenticateUser(String email, String password) throws ClassNotFoundException, SQLException {
+	public void addTask(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, ClassNotFoundException, SQLException {
 
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "root");
-		String sql = "select * from ToDoLoginPairs";
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			if (email.equalsIgnoreCase(rs.getString(1)))
-				if (password.equalsIgnoreCase(rs.getString(2)))
-					return true;
-		}
-		con.close();
-		return false;
-	}
+		session = request.getSession();
+		serviceDB = new ToDoDBService();
+		String name, priority, date;
+		List<Task> taskList = (List<Task>) serviceDB.loadListDB();
+		if (taskList == null)
+			taskList = new ArrayList<>();
+		request.getServletContext().setAttribute("taskList", taskList);
+		// session.setAttribute("taskList", taskList);
+		name = request.getParameter("name");
+		priority = request.getParameter("priority");
+		date = request.getParameter("date");
+		Task task = new Task(name, priority, date);
 
-	public static boolean isDuplicate(Task task) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "root");
-		String sql = "select * from ToDoDB";
-		PreparedStatement pstmt = con.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			if (task.getName().equalsIgnoreCase(rs.getString(1)))
-				return true;
-		}
-		con.close();
-		return false;
-	}
-
-	public boolean toDatabase(Task task) throws ClassNotFoundException, SQLException {
-
-		if (!(isDuplicate(task))) {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root",
-					"root");
-
-			PreparedStatement pstmt = con.prepareStatement("insert into ToDoDB values(?,?,?)");
-			pstmt.setString(1, task.getName());
-			pstmt.setString(2, task.getPriority());
-			pstmt.setString(3, task.getDate());
-			int upd = pstmt.executeUpdate();
-			System.out.println("Successfully updated " + upd + " entries !");
-			con.close();
-
-			return true;
-		}
-		return false;
-	}
-
-	public List<Task> fromDatabase() throws ClassNotFoundException, SQLException {
-		List<Task> taskList = new ArrayList<>();
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "root");
-		PreparedStatement pstmt = con.prepareStatement("select * from ToDoDB");
-		ResultSet rs = pstmt.executeQuery();
-		while (rs.next()) {
-			Task task = new Task(rs.getString(1), rs.getString(2), rs.getString(3));
-			if (taskList.isEmpty())
-				taskList = new ArrayList<>();
-			taskList.add(task);
-		}
-		con.close();
-		return taskList;
-	}
-
-	public void update(Task task, String taskName) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root",
-				"root");
-		System.out.println("Connection Opened !!!");
-		PreparedStatement pstmt = con.prepareStatement("update ToDoDB set name=?, date=?, priority=? where name=?");
-		pstmt.setString(1, task.getName());
-		System.out.println("updated name: "+task.getName());
-		pstmt.setString(2, task.getDate());
-		System.out.println("updated date: "+task.getDate());
-		pstmt.setString(3, task.getPriority());
-		System.out.println();
-		pstmt.setString(4, taskName);
-		pstmt.executeUpdate();
-		con.close();
-	}
-
-	public void delete(Task task) throws ClassNotFoundException, SQLException {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "root");
-		PreparedStatement pstmt = con.prepareStatement("delete from ToDoDB where name=?");
-		pstmt.setString(1, task.getName());
-		pstmt.executeUpdate();
-		con.close();
-	}
-
-	public Task getTask(String taskName) throws ClassNotFoundException, SQLException {
-
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo?useSSL=false", "root", "root");
-		PreparedStatement pstmt = con.prepareStatement("select * from ToDoDB where name=?");
-		pstmt.setString(1, taskName);
-		System.out.println("Found task: "+taskName);
-		ResultSet rs = pstmt.executeQuery();
-		Task task = null;
-		while (rs.next()) {
-			if (taskName.equals(rs.getString(1))) {
-				String name = rs.getString(1);
-				String date = rs.getString(2);
-				String priority = rs.getString(3);
-				
-				task = new Task(name, date, priority);
-				break;
+		if (serviceDB.isProper(task)) {
+			try {
+				if (serviceDB.saveListDB(task)) {
+					request.getServletContext().setAttribute("taskList", taskList);// set new list
+					// session.setAttribute("taskList", taskList);
+					dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+					dispatcher.forward(request, response);
+				} else {
+					request.getServletContext().setAttribute("taskList", taskList);// set old list
+					request.setAttribute("error", "error");// send error indicator
+					// session.setAttribute("taskList", taskList);
+					dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+					dispatcher.forward(request, response);
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
 			}
-		}con.close();
-		return task;
+		}
+
+	}
+
+	public void deleteTask(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		String taskName = request.getParameter("name");
+		serviceDB = new ToDoDBService();
+
+		try {
+			serviceDB.delete(taskName);
+			List<Task> taskList = serviceDB.loadListDB();
+			request.getServletContext().setAttribute("taskList", taskList);
+			// session.setAttribute("taskList", taskList);
+			dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+			dispatcher.forward(request, response);
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+
+	}
+
+	public void updateTask(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, ClassNotFoundException, SQLException {
+
+		String old_taskName = request.getParameter("old_taskname"); //Old task name
+		String taskName = request.getParameter("name"); //new modified name
+		System.out.println("new name: " + taskName);
+		String priority = request.getParameter("priority");//modified priority
+		String date = request.getParameter("date");//modified date
+		System.out.println("new Date: " + date);
+		
+		Task task = new Task(taskName, date, priority);
+		serviceDB = new ToDoDBService();
+
+		try {
+			serviceDB.update(task, old_taskName);
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		List<Task> taskList = serviceDB.loadListDB();
+		request.getServletContext().setAttribute("taskList", taskList);
+		// session.setAttribute("taskList", taskList);
+		RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+		dispatcher.forward(request, response);
+
 	}
 
 }

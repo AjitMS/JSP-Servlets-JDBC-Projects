@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/ToDoUpdateController")
 public class ToDoUpdateController extends HttpServlet {
 
-	ToDoService service;
+	ToDoDBService serviceDB;
 
 	@Override
 	public void init() throws ServletException {
 
-		service = new ToDoService();
+		serviceDB = new ToDoDBService();
 
 	}
 
@@ -47,7 +47,7 @@ public class ToDoUpdateController extends HttpServlet {
 			String action = request.getParameter("action");
 			System.out.println("action in controller is: " + action);
 			try {
-				task = service.getTask(taskName);
+				task = serviceDB.getTask(taskName);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
@@ -97,14 +97,14 @@ public class ToDoUpdateController extends HttpServlet {
 		String old_taskName = (String) request.getParameter("old_taskname");
 		String action = (String) request.getParameter("command");
 		Task task = new Task(taskName, date, priority);
-		service = new ToDoService();
+		serviceDB = new ToDoDBService();
 		try {
 			if (action != null) {
 				switch (action) {
 				case "delete":
 					try {
-						service.delete(task);
-						List<Task> taskList = service.fromDatabase();
+						serviceDB.delete(taskName);
+						List<Task> taskList = serviceDB.loadListDB();
 						request.getServletContext().setAttribute("taskList", taskList);
 						//session.setAttribute("taskList", taskList);
 						RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
@@ -115,11 +115,11 @@ public class ToDoUpdateController extends HttpServlet {
 					break;
 				case "update":
 					try {
-						service.update(task, old_taskName);
+						serviceDB.update(task, old_taskName);
 					} catch (ClassNotFoundException | SQLException e) {
 						e.printStackTrace();
 					}
-					List<Task> taskList = service.fromDatabase();
+					List<Task> taskList = serviceDB.loadListDB();
 					request.getServletContext().setAttribute("taskList", taskList);
 					//session.setAttribute("taskList", taskList);
 					RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
