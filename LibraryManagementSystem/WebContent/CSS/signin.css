@@ -1,3 +1,4 @@
+
 body {
 	background-color: #E8E8E8;
 }
@@ -7,23 +8,22 @@ body {
 	margin-left: 300px;
 	padding: 0px;
 	background-color: white;
-		border-radius: 7px;
-	width: 630px;
+	border-radius: 7px;
+	max-width: 650px;
 	box-shadow: 0px 5px 5px 5px lightgrey;
 }
-
 .subcontainer {
 	width: 315px;
 }
 
-#faded {
-	color: grey;
+.sideborder{
+	border-left: 1px solid lightgrey;
+	margin-top: 5px;
+	margin-bottom: 20px;
 }
 
-.border {
-	padding-bottom: 5px;
-	margin: 10px;
-	border-bottom: 1px ridge lightgrey;
+#faded {
+	color: grey;
 }
 
 .facebook {
@@ -33,7 +33,7 @@ body {
 
 .facebook:hover {
 	background-color: black;
-	color: lightgrey;
+	color: white;
 }
 
 #button {
@@ -49,8 +49,6 @@ body {
 	float: left;
 }
 
-
-
-.sharpbutton {
+.roundbutton {
 	border-radius: 2px;
 }
