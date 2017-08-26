@@ -1,0 +1,56 @@
+body {
+	background-color: #E8E8E8;
+}
+
+.supercontainer{
+	margin-top: 100px;
+	margin-left: 300px;
+	padding: 0px;
+	background-color: white;
+		border-radius: 7px;
+	width: 630px;
+	box-shadow: 0px 5px 5px 5px lightgrey;
+}
+
+.subcontainer {
+	width: 315px;
+}
+
+#faded {
+	color: grey;
+}
+
+.border {
+	padding-bottom: 5px;
+	margin: 10px;
+	border-bottom: 1px ridge lightgrey;
+}
+
+.facebook {
+	background-color: #1C2833;
+	color: white;
+}
+
+.facebook:hover {
+	background-color: black;
+	color: lightgrey;
+}
+
+#button {
+	width: 270px;
+	margin:0px;
+}
+
+#register {
+	float: right;
+}
+
+#pass {
+	float: left;
+}
+
+
+
+.sharpbutton {
+	border-radius: 2px;
+}
