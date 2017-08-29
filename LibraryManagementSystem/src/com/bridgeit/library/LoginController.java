@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
  * Servlet implementation class LibraryLogin
  */
 @WebServlet("/LibraryLogin")
-public class LibraryLoginController extends HttpServlet {
+public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LibraryLoginController() {
+	public LoginController() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -44,7 +44,7 @@ public class LibraryLoginController extends HttpServlet {
 
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		LibraryDBService dbService = new LibraryDBService();
+		DBService dbService = new DBService();
 		RequestDispatcher dispatcher;
 		try {
 			if(dbService.authenticateUser(email, password)) {

@@ -11,7 +11,6 @@ public class DBConnection {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/library?useSSL=false", "root",
 					"root");
 		} catch (SQLException | ClassNotFoundException e) {

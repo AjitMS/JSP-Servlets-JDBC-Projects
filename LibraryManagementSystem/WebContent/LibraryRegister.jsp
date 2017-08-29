@@ -32,8 +32,9 @@
 
 </head>
 <body>
-	<div class="container justify-content-center col-xl-3 col-lg-6 col-md-8 col-sm-10" align="center"
-		id="container">
+	<div
+		class="container justify-content-center col-xl-3 col-lg-6 col-md-8 col-sm-10"
+		align="center" id="container">
 		<div class="row">
 			<div class="col">
 				<h2 class="border">Create an account</h2>
@@ -61,7 +62,7 @@
 						<div class=" col-4 form-check form-check-inline">
 							<label class="form-check-label"><input
 								class="form-check-input" type="radio" name="gender" id="gender"
-								value="male"required>Male </label>
+								value="male" required>Male </label>
 						</div>
 						<div class="col-4 form-check form-check-inline">
 							<label class="form-check-label"><input
