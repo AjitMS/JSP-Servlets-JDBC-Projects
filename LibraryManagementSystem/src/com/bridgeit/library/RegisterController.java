@@ -1,6 +1,7 @@
 package com.bridgeit.library;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -41,28 +42,48 @@ public class RegisterController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String email, fullname, password, conf_password, phone, gender;
+		String email = request.getParameter("email");
+		String fullname = request.getParameter("fullname");
+		String password = request.getParameter("password");
+		String conf_password = request.getParameter("conf_password");
+		String phone = request.getParameter("phone");
+		String gender = request.getParameter("gender");
+
 		DBService service = new DBService();
 		RequestDispatcher dispatcher;
-		User user = new User(email, fullname, password, phone, gender);
-		if (service.basicValidation()) {// basic validation
+		User user = new User(fullname, email, phone, password, gender);
+		String errorString;
+		try {
+			errorString = service.basicValidation(user, conf_password);
+			if (errorString.equals("Error/s: ")) {// basic validation
 
-			if (!(service.alreadyRegistered(user))) { // not already registered. so add user to database.
-				service.addUser(user);
-				request.setAttribute("message", "registersuccess");
-				dispatcher = request.getRequestDispatcher("LibraryHomepage.jsp");
-				dispatcher.forward(request, response);
-			} else {
-				request.setAttribute("message", "alreadyregistered");
+				if (!(service.alreadyRegistered(user))) { // not already registered. so add user to database.
+					service.addUser(user);
+					System.out.println("Added !!");
+					request.setAttribute("message", "registersuccess");
+					request.setAttribute("command", "showhomepage");
+					dispatcher = request.getRequestDispatcher("LibraryHomepage.jsp");
+					dispatcher.forward(request, response);
+				} else {
+					System.out.println("already User");
+					request.setAttribute("message", "alreadyregistered");
+					request.setAttribute("command", "showregister");
+					dispatcher = request.getRequestDispatcher("LibraryRegister.jsp");
+					dispatcher.forward(request, response);
+				}
+			}
+
+			else {
+				System.out.println("syntax error !!");
+				request.setAttribute("message", errorString);
+				request.setAttribute("command", "showregister");
 				dispatcher = request.getRequestDispatcher("LibraryRegister.jsp");
 				dispatcher.forward(request, response);
-			}
-		}
 
-		else {
-			request.setAttribute("message", "syntaxerror");
-			dispatcher = request.getRequestDispatcher("LibraryRegister.jsp");
-			dispatcher.forward(request, response);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}

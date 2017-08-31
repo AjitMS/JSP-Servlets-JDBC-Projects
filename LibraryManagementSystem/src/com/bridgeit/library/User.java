@@ -3,6 +3,14 @@ package com.bridgeit.library;
 public class User {
 	private String fullname, email, phone, password, gender;
 
+	public User() {
+		fullname = null;
+		email = null;
+		phone = null;
+		password = null;
+		gender = null;
+	}
+
 	public User(String fullname, String email, String phone, String password, String gender) {
 
 		this.fullname = fullname;

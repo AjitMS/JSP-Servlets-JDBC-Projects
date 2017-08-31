@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -43,21 +46,116 @@
 		<br>
 		<div class="row">
 			<div class="col form-padding " align="left">
-				<form action="LibraryRegistration" method="post">
-					<label for="email">Full Name </label> <input type="fullname"
+
+				<c:set var="message" scope="request" value="${message}"></c:set>
+
+				 <c:out value="${message}"></c:out>
+
+
+				<%--	<c:choose>
+					<c:when test="${fn:contains(message, 'passwordunmatch') }">
+						<p>*Both the passwords do not match</p>
+					</c:when>
+
+					<c:when test="${fn:contains(message, 'fullnameempty') }">
+						<p>*Full name entry cannot be Empty</p>
+					</c:when>
+
+
+					<c:when test="${fn:contains(message, 'genderempty') }">
+						<p>*please select one of the gender</p>
+					</c:when>
+
+
+					<c:when test="${fn:contains(message, 'confpasswordempty') }">
+						<p>*Confirm password field empty</p>
+					</c:when>
+
+
+					<c:when test="${fn:contains(message, 'fullnamedigit') }">
+						<p>*Only characters [A-Z, a-z] are allowed in full name field.</p>
+					</c:when>
+
+					<c:when test="${fn:contains(message, 'phonechar') }">
+						<p>*please enter a valid phone number without alphabets</p>
+					</c:when>
+
+
+					<c:when test="${fn:contains(message, 'emailempty') }">
+						<p>*Email field cannot be empty</p>
+					</c:when>
+
+
+					<c:when test="${fn:contains(message, 'passwordshort') }">
+						<p>*Specified password is too short. please choose another.</p>
+					</c:when>
+				</c:choose> --%>
+
+
+
+				<c:if test="${fn:contains(message, 'fullnameempty') }">
+					<p>*Full name entry cannot be Empty</p>
+				</c:if>
+
+
+				<c:if test="${fn:contains(message, 'emailempty') }">
+					<p class="danger">*Email field cannot be empty</p>
+				</c:if>
+
+
+				<c:if test="${fn:contains(message, 'genderempty') }">
+					<p class="danger">*please select one of the gender</p>
+				</c:if>
+
+				<c:if test="${fn:contains(message, 'confpasswordempty') }">
+					<p class="danger">*Confirm password field empty</p>
+				</c:if>
+
+				<c:if test="${fn:contains(message, 'fullnamedigit') }">
+					<p class="danger">*Only characters [A-Z, a-z] are allowed in
+						full name field.</p>
+				</c:if>
+
+				<c:if test="${fn:contains(message, 'phonechar') }">
+					<p class="danger">*please enter a valid phone number</p>
+				</c:if>
+
+
+				<c:if test="${fn:contains(message, 'passwordshort') }">
+					<p class="danger">*Specified password is too short. please
+						choose another.</p>
+				</c:if>
+
+				<c:if test="${fn:contains(message, 'passwordunmatch') }">
+					<p class="danger">*Both the passwords do not match</p>
+				</c:if>
+
+				<c:if test="${fn:contains(message, 'alreadyregistered') }">
+					<p class="danger">
+						*Email is already Registered. Enter another email or phone OR <br>
+						<a href="LibraryLogin.jsp">Login here!</a>
+						<br>Or <i><a href="#">forgot password?</a></i>
+					</p>
+				</c:if>
+
+
+
+				<form action="RegisterController" method="post">
+
+					<label for="fullname">Full Name </label> <input type="text"
 						class="form-control" id="fullname" placeholder="Enter full name"
 						name="fullname"> <br> <label for="email">Email
 						Address </label> <input type="email" class="form-control" id="email"
 						placeholder="Enter email" name="email"> <br> <label
-						for="phone">Phone number </label> <input type="tel"
+						for="phone">Phone number </label> <input type="text"
 						class="form-control" id="phone" placeholder="Enter mobile number"
 						name="phone"> <br> <label for="password">Password</label>
 					<input type="password" class="form-control" id="password"
 						placeholder="Enter password" name="password"> <br> <label
-						for="password">Confirm Password</label> <input type="password"
-						class="form-control" id="password" placeholder="Repeat password"
-						name="password"> <br> <label for="gender">Gender</label>
-					<br />
+						for="conf_password">Confirm Password</label> <input
+						type="password" class="form-control" id="password"
+						placeholder="Repeat password" name="conf_password"><br>
+					<label for="gender">Gender</label>
 					<div class="row">
 						<div class=" col-4 form-check form-check-inline">
 							<label class="form-check-label"><input
@@ -88,6 +186,23 @@
 						Already have an account?<a href="#"><strong> Sign in</strong></a>
 					</p>
 				</form>
+
+
+
+
+
+				<!-- if (errorString.contains("passwordunmatch")) { } if
+				(errorString.contains("fullnameempty")) { } if
+				(errorString.contains("genderempty")) { } if
+				(errorString.contains("confpasswordempty")) { } if
+				(errorString.contains("Fullnamedigit")) { } if
+				(errorString.contains("phonechar")) { } if
+				(errorString.contains("emailempty")) { }
+				if(errorString.contains("passwordshort")) { } -->
+
+
+
+
 			</div>
 		</div>
 	</div>

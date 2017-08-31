@@ -1,6 +1,11 @@
 body{
 	background-color: #E8E8E8;
 }
+
+.danger{
+	color: red
+}
+
 #container
 {
 	background-color: white;
