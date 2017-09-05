@@ -1,4 +1,4 @@
-package com.bridgeit.library;
+package com.bridgeit.DTO;
 
 public class Book {
 

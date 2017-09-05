@@ -1,4 +1,4 @@
-package com.bridgeit.library;
+package com.bridgeit.DAO;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

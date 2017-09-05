@@ -17,8 +17,6 @@
 
 <!-- JQuery References  -->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-
-
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
 	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
 	crossorigin="anonymous"></script>
@@ -30,11 +28,34 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
 	integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
 	crossorigin="anonymous"></script>
-
 <link rel="stylesheet" type="text/css" href="CSS/register.css" />
-
 </head>
 <body>
+
+
+
+<p id="demo"></p>
+
+<script>
+
+	function validate(){
+	var fullname = document.forms["registration"]["fullname"].value;
+	if(fullname == "1"){
+		
+		window.alert('name invalid');
+		return false;
+	}
+	var email = document.registration.email;
+	var phone = document.registration.phone;
+	var password = document.regsitration.password;
+	var conf_password = document.regsitration.conf_password;
+	var gender = document.registration.gender;
+	
+	
+
+	
+}	
+</script>
 	<div
 		class="container justify-content-center col-xl-3 col-lg-6 col-md-8 col-sm-10"
 		align="center" id="container">
@@ -49,66 +70,32 @@
 
 				<c:set var="message" scope="request" value="${message}"></c:set>
 
-				 <c:out value="${message}"></c:out>
-
-
-				<%--	<c:choose>
-					<c:when test="${fn:contains(message, 'passwordunmatch') }">
-						<p>*Both the passwords do not match</p>
-					</c:when>
-
-					<c:when test="${fn:contains(message, 'fullnameempty') }">
-						<p>*Full name entry cannot be Empty</p>
-					</c:when>
-
-
-					<c:when test="${fn:contains(message, 'genderempty') }">
-						<p>*please select one of the gender</p>
-					</c:when>
-
-
-					<c:when test="${fn:contains(message, 'confpasswordempty') }">
-						<p>*Confirm password field empty</p>
-					</c:when>
-
-
-					<c:when test="${fn:contains(message, 'fullnamedigit') }">
-						<p>*Only characters [A-Z, a-z] are allowed in full name field.</p>
-					</c:when>
-
-					<c:when test="${fn:contains(message, 'phonechar') }">
-						<p>*please enter a valid phone number without alphabets</p>
-					</c:when>
-
-
-					<c:when test="${fn:contains(message, 'emailempty') }">
-						<p>*Email field cannot be empty</p>
-					</c:when>
-
-
-					<c:when test="${fn:contains(message, 'passwordshort') }">
-						<p>*Specified password is too short. please choose another.</p>
-					</c:when>
-				</c:choose> --%>
-
-
-
 				<c:if test="${fn:contains(message, 'fullnameempty') }">
-					<p>*Full name entry cannot be Empty</p>
+					<p class="danger">*Full name entry cannot be Empty</p>
 				</c:if>
-
 
 				<c:if test="${fn:contains(message, 'emailempty') }">
 					<p class="danger">*Email field cannot be empty</p>
 				</c:if>
 
-
 				<c:if test="${fn:contains(message, 'genderempty') }">
 					<p class="danger">*please select one of the gender</p>
 				</c:if>
 
+				<c:if test="${fn:contains(message, 'passwordempty') }">
+					<p class="danger">*password field cannot empty</p>
+				</c:if>
+
 				<c:if test="${fn:contains(message, 'confpasswordempty') }">
 					<p class="danger">*Confirm password field empty</p>
+				</c:if>
+
+				<c:if test="${fn:contains(message, 'emptyphone') }">
+					<p class="danger">*phone number field empty</p>
+				</c:if>
+
+				<c:if test="${fn:contains(message, 'invalidphone') }">
+					<p class="danger">*Invalid phone number</p>
 				</c:if>
 
 				<c:if test="${fn:contains(message, 'fullnamedigit') }">
@@ -133,29 +120,40 @@
 				<c:if test="${fn:contains(message, 'alreadyregistered') }">
 					<p class="danger">
 						*Email is already Registered. Enter another email or phone OR <br>
-						<a href="LibraryLogin.jsp">Login here!</a>
-						<br>Or <i><a href="#">forgot password?</a></i>
+						<a href="LibraryLogin.jsp">Login here!</a> <br>Or <i><a
+							href="#">forgot password?</a></i>
 					</p>
 				</c:if>
-
-
-
-				<form action="RegisterController" method="post">
+				<form action="RegisterController" onsubmit="return validate();" method="post" name="registration">
 
 					<label for="fullname">Full Name </label> <input type="text"
-						class="form-control" id="fullname" placeholder="Enter full name"
-						name="fullname"> <br> <label for="email">Email
-						Address </label> <input type="email" class="form-control" id="email"
-						placeholder="Enter email" name="email"> <br> <label
-						for="phone">Phone number </label> <input type="text"
-						class="form-control" id="phone" placeholder="Enter mobile number"
-						name="phone"> <br> <label for="password">Password</label>
-					<input type="password" class="form-control" id="password"
-						placeholder="Enter password" name="password"> <br> <label
-						for="conf_password">Confirm Password</label> <input
-						type="password" class="form-control" id="password"
-						placeholder="Repeat password" name="conf_password"><br>
-					<label for="gender">Gender</label>
+						class="is-invalid form-control " id="fullname"
+						placeholder="Enter full name" name="fullname" >
+					<div id="fullname" class="invalid-feedback">Please enter a
+						valid username</div>
+
+
+					<br> <label for="email">Email Address </label> <input
+						type="email" class="is-invalid form-control" id="email"
+						placeholder="Enter email" name="email" required>
+					<div id="fullname" class="invalid-feedback">Please enter a
+						valid email</div>
+					<br> <label for="phone">Phone number </label> <input
+						type="text" class="is-invalid form-control" id="phone"
+						placeholder="Enter mobile number" name="phone" required>
+					<div id="fullname" class="invalid-feedback">Please enter a
+						valid phone number</div>
+					<br> <label for="password">Password</label> <input
+						type="password" class="is-invalid form-control" id="password"
+						placeholder="Enter password" name="password" required>
+					<div id="fullname" class="invalid-feedback">Please enter a
+						valid password</div>
+					<br> <label for="conf_password">Confirm Password</label> <input
+						type="password" class="is-invalid form-control" id="password"
+						placeholder="Repeat password" name="conf_password" required>
+					<div id="fullname" class="invalid-feedback">passwords do not
+						match</div>
+					<br> <label for="gender">Gender</label>
 					<div class="row">
 						<div class=" col-4 form-check form-check-inline">
 							<label class="form-check-label"><input
@@ -186,25 +184,11 @@
 						Already have an account?<a href="#"><strong> Sign in</strong></a>
 					</p>
 				</form>
-
-
-
-
-
-				<!-- if (errorString.contains("passwordunmatch")) { } if
-				(errorString.contains("fullnameempty")) { } if
-				(errorString.contains("genderempty")) { } if
-				(errorString.contains("confpasswordempty")) { } if
-				(errorString.contains("Fullnamedigit")) { } if
-				(errorString.contains("phonechar")) { } if
-				(errorString.contains("emailempty")) { }
-				if(errorString.contains("passwordshort")) { } -->
-
-
-
-
 			</div>
 		</div>
 	</div>
+
+
+	
 </body>
 </html>

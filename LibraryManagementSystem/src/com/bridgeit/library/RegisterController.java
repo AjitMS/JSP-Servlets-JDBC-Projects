@@ -1,5 +1,9 @@
 package com.bridgeit.library;
 
+import com.bridgeit.utilities.*;
+import com.bridgeit.DAO.*;
+import com.bridgeit.DTO.*;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -9,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * Servlet implementation class RegisterController
@@ -41,7 +46,6 @@ public class RegisterController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		String email = request.getParameter("email");
 		String fullname = request.getParameter("fullname");
 		String password = request.getParameter("password");
@@ -50,15 +54,16 @@ public class RegisterController extends HttpServlet {
 		String gender = request.getParameter("gender");
 
 		DBService service = new DBService();
+		MyUtility utilities = new MyUtility();
 		RequestDispatcher dispatcher;
 		User user = new User(fullname, email, phone, password, gender);
 		String errorString;
 		try {
-			errorString = service.basicValidation(user, conf_password);
-			if (errorString.equals("Error/s: ")) {// basic validation
+			errorString = utilities.basicValidation(user, conf_password); //adding errors to a string
+			if (utilities.noErrorExists(errorString)) {// basic validation
 
 				if (!(service.alreadyRegistered(user))) { // not already registered. so add user to database.
-					service.addUser(user);
+					service.registerUser(user);
 					System.out.println("Added !!");
 					request.setAttribute("message", "registersuccess");
 					request.setAttribute("command", "showhomepage");
@@ -85,7 +90,5 @@ public class RegisterController extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }
