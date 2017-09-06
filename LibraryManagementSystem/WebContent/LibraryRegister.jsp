@@ -1,12 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html"%>
+<!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Library Register</title>
 
 <!-- Bootstrap References -->
@@ -15,47 +17,10 @@
 	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
 	crossorigin="anonymous">
 
-<!-- JQuery References  -->
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-	integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-	crossorigin="anonymous"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-	integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-	crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="CSS/register.css" />
 </head>
 <body>
 
-
-
-<p id="demo"></p>
-
-<script>
-
-	function validate(){
-	var fullname = document.forms["registration"]["fullname"].value;
-	if(fullname == "1"){
-		
-		window.alert('name invalid');
-		return false;
-	}
-	var email = document.registration.email;
-	var phone = document.registration.phone;
-	var password = document.regsitration.password;
-	var conf_password = document.regsitration.conf_password;
-	var gender = document.registration.gender;
-	
-	
-
-	
-}	
-</script>
 	<div
 		class="container justify-content-center col-xl-3 col-lg-6 col-md-8 col-sm-10"
 		align="center" id="container">
@@ -121,49 +86,60 @@
 					<p class="danger">
 						*Email is already Registered. Enter another email or phone OR <br>
 						<a href="LibraryLogin.jsp">Login here!</a> <br>Or <i><a
-							href="#">forgot password?</a></i>
+							href="#">did you forgot password?</a></i>
 					</p>
 				</c:if>
-				<form action="RegisterController" onsubmit="return validate();" method="post" name="registration">
+				<form action="RegisterController" method="post" name="registration"
+					id="myForm" onsubmit="return validate();">
 
 					<label for="fullname">Full Name </label> <input type="text"
-						class="is-invalid form-control " id="fullname"
-						placeholder="Enter full name" name="fullname" >
-					<div id="fullname" class="invalid-feedback">Please enter a
-						valid username</div>
-
+						class="is-valid form-control " id="fullname"
+						placeholder="Enter full name" name="fullname">
+					<div id="fullnamewarning" class="d-none invalid-feedback">Please
+						enter a valid username</div>
 
 					<br> <label for="email">Email Address </label> <input
-						type="email" class="is-invalid form-control" id="email"
-						placeholder="Enter email" name="email" required>
-					<div id="fullname" class="invalid-feedback">Please enter a
-						valid email</div>
+						type="email" class="is-valid form-control" id="email"
+						placeholder="Enter email" name="email">
+					<div id="emailwarning" class="d-none invalid-feedback">Please
+						enter a valid email</div>
+
 					<br> <label for="phone">Phone number </label> <input
-						type="text" class="is-invalid form-control" id="phone"
-						placeholder="Enter mobile number" name="phone" required>
-					<div id="fullname" class="invalid-feedback">Please enter a
-						valid phone number</div>
+						type="text" class="is-valid form-control" id="phone"
+						placeholder="Enter mobile number" name="phone">
+					<div id="phonewarning" class="d-none invalid-feedback">Please
+						enter a valid phone number</div>
+
 					<br> <label for="password">Password</label> <input
-						type="password" class="is-invalid form-control" id="password"
-						placeholder="Enter password" name="password" required>
-					<div id="fullname" class="invalid-feedback">Please enter a
-						valid password</div>
+						type="password" class="is-valid form-control" id="password"
+						placeholder="Enter password" name="password">
+					<div id="passwordwarning" class="d-none invalid-feedback">Please
+						enter a valid password</div>
+
 					<br> <label for="conf_password">Confirm Password</label> <input
-						type="password" class="is-invalid form-control" id="password"
-						placeholder="Repeat password" name="conf_password" required>
-					<div id="fullname" class="invalid-feedback">passwords do not
-						match</div>
+						type="password" class="is-valid form-control" id="passwordwarning"
+						placeholder="Repeat password" name="conf_password">
+					<div id="conf_passwordwarning" class="d-none invalid-feedback">passwords
+						do not match</div>
+
 					<br> <label for="gender">Gender</label>
 					<div class="row">
-						<div class=" col-4 form-check form-check-inline">
-							<label class="form-check-label"><input
-								class="form-check-input" type="radio" name="gender" id="gender"
-								value="male" required>Male </label>
+						<div class=" col-4 form-check  form-check-inline">
+							<label class="custom-control custom-radio"> <input
+								id="gender" name="gender" type="radio" value="male"
+								class="custom-control-input"> <span
+								class="custom-control-indicator"></span> <span
+								class="custom-control-description">Male</span>
+							</label>
 						</div>
+
 						<div class="col-4 form-check form-check-inline">
-							<label class="form-check-label"><input
-								class="form-check-input" type="radio" name="gender" id="female"
-								value="female" required> Female </label>
+							<label class="custom-control custom-radio"> <input
+								id="gender" name="gender" type="radio" value="female"
+								class="custom-control-input"> <span
+								class="custom-control-indicator"></span> <span
+								class="custom-control-description">Female</span>
+							</label>
 						</div>
 					</div>
 					<div class="form-group">
@@ -188,7 +164,84 @@
 		</div>
 	</div>
 
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+		integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+		crossorigin="anonymous"></script>
 
-	
+	<script>
+		/* console.log("M....");
+			
+				$("#registration").submit(function(event) {
+				console.log($("#fullname").val());
+				}); */
+
+		function validate() {
+			console.log("Entered validation");
+			var fullname = document.registration.fullname;
+			var email = document.registration.email;
+			var phone = document.registration.phone;
+			var password = document.registration.password;
+			var conf_password = document.registration.conf_password;
+			var errorString = "empty";
+			/* if ($("#fullname").val() == "" || isNumeric($("#fullname").val())) {
+				console.log("Entered fullname");
+				$("#fullnamewarning").toggleClass("d-none", "addOrRemove");	
+				 return false;
+			}  */
+
+			if (fullname.value == "" || fullname.value == "\D") {
+				console.log("Entered fullname");
+				$("#fullname").toggleClass("is-invalid");
+				$("#fullnamewarning").toggleClass("d-none");
+				errorString += "fullname \n";
+			}
+
+			//check if it contains '@'
+			if (email.value.indexOf("@", 0) < 0
+					|| email.value.indexOf("com", 0) < 0 || email.value == "") {
+				console.log("Entered email");
+				$("#email").toggleClass("is-invalid");
+				$("#emailwarning").toggleClass("d-none", "addOrRemove");
+				errorString += "email\n";
+			}
+
+			//check if it contains '@'
+			if (phone.value.length != 10 || phone.value == "") {
+				console.log("Entered phone");
+				$("#phone").toggleClass("is-invalid");
+				$("#phonewarning").toggleClass("d-none", "addOrRemove");
+				errorString += "phone\n"
+			}
+
+			if (password.value.length < 4) {
+				console.log("Entered password");
+				$("#password").toggleClass("is-invalid");
+				$("#passwordwarning").toggleClass("d-none", "addOrRemove");
+				errorString += "password\n"
+			}
+
+			if (password.value != conf_password.value) {
+				console.log("Entered password");
+				$("#conf_password").toggleClass("is-invalid");
+				$("#conf_passwordwarning").toggleClass("d-none", "addOrRemove");
+				errorString += "conf_password\n"
+			}
+			if (errorString != "empty") {
+				window.alert("Errors are: " + errorString);
+				return false;
+			} else
+				return true;
+		}
+	</script>
 </body>
 </html>

@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bridgeit.DAO.DBService;
 
 /**
@@ -18,7 +21,7 @@ import com.bridgeit.DAO.DBService;
 @WebServlet("/LibraryLogin")
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	Logger logger = LoggerFactory.getLogger(LoginController.class);
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -43,7 +46,7 @@ public class LoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		logger.info("AJIT");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		DBService dbService = new DBService();

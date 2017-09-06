@@ -1,37 +1,38 @@
-body{
+#hid {
+	display: none !important;
+}
+
+
+
+body {
 	background-color: #E8E8E8;
 }
 
-.danger{
+.danger {
 	color: red
 }
 
-#container
-{
+#container {
 	background-color: white;
 	box-shadow: 0px 5px 5px 5px lightgrey;
 	border-radius: 7px;
 }
 
-#float
-{
-	float:left;
+#float {
+	float: left;
 }
 
 
-#dotted-bound{
+
+#dotted-bound {
 	border: 2px dashed lightgrey;
 }
 
-
-
-.border
-{
-border-bottom: 1px solid lightgrey;	
-margin: 10px;
+.border {
+	border-bottom: 1px solid lightgrey;
+	margin: 10px;
 }
 
-.form-padding{
-	padding:8px;
-	
+.form-padding {
+	padding: 8px;
 }
