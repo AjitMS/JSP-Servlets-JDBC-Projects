@@ -78,7 +78,7 @@
 				</div>
 
 
-				<div  id="authentication-message" class="row alertpad hidden">
+				<div id="authentication-message" class="row alertpad hidden">
 					<div class=" col alert alert-danger alert-dismissible fade show"
 						role="alert">
 						<button type="button" class="close" data-dismiss="alert"
@@ -112,11 +112,10 @@
 						<strong>Logout Successful !</strong> Logged out successfully !
 					</div>
 				</div>
-
-
 				<div class="row">
 					<div class="col">
-						<form action="LibraryLogin" method="post" class="formpadding">
+						<form action="LoginController" method="post"
+							class="formpadding">
 							<input type="email" class="form-control" class="form-control"
 								id="email" placeholder="Enter email" name="email"> <input
 								type="password" class="form-control" id="password"

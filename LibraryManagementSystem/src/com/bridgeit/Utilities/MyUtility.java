@@ -1,4 +1,4 @@
-package com.bridgeit.utilities;
+package com.bridgeit.Utilities;
 
 import com.bridgeit.DTO.User;
 

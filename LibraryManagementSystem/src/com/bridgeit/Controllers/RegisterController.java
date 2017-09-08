@@ -1,8 +1,8 @@
-package com.bridgeit.library;
+package com.bridgeit.Controllers;
 
-import com.bridgeit.utilities.*;
 import com.bridgeit.DAO.*;
 import com.bridgeit.DTO.*;
+import com.bridgeit.Utilities.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -65,6 +66,8 @@ public class RegisterController extends HttpServlet {
 				if (!(service.alreadyRegistered(user))) { // not already registered. so add user to database.
 					service.registerUser(user);
 					System.out.println("Added !!");
+					HttpSession session = request.getSession(true);
+					session.setAttribute("email", email);
 					request.setAttribute("message", "registersuccess");
 					request.setAttribute("command", "showhomepage");
 					dispatcher = request.getRequestDispatcher("LibraryHomepage.jsp");

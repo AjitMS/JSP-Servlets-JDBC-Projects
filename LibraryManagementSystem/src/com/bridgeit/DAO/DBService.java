@@ -36,13 +36,24 @@ public class DBService implements DBServiceInterface {
 		System.out.println("Executing...");
 		while (rs.next()) {
 			System.out.println("iterating...");
-			if (rs.getString(1).equals(email))
-				if (rs.getString(2).equals(password))
+			if (rs.getString(2).equals(email))
+				if (rs.getString(3).equals(password))
 					return true;
 		}
 		return false;
 	}
 
+	public User getUserObject(String email) throws SQLException, ClassNotFoundException {
+		connection = con.getConnection();
+		System.out.println("Got connection...");
+		String sql = "select * from appuser";
+		PreparedStatement pstmt = connection.prepareStatement(sql);
+		ResultSet rs = pstmt.executeQuery();
+		System.out.println("Executing...");
+		while (rs.next()) {
+			System.out.println("iterating...");
+	}
+	}
 	/**
 	 * @param user
 	 * @param conf_password

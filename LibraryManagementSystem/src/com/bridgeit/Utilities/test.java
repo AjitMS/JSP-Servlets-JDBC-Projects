@@ -1,4 +1,4 @@
-package com.bridgeit.utilities;
+package com.bridgeit.Utilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
