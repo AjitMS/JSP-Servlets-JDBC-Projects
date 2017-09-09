@@ -2,12 +2,10 @@ package com.bridgeit.DTO;
 
 public class Book {
 
-	private int bid;
 	private String bookName, bookAuthor, bookCategory, bookDescription;
 
-	public Book(int bid, String bookName, String bookAuthor, String bookCategory, String bookDescription) {
+	public Book(String bookName, String bookAuthor, String bookCategory, String bookDescription) {
 
-		this.bid = bid;
 		this.bookName = bookName;
 		this.bookAuthor = bookAuthor;
 		this.bookCategory = bookCategory;
@@ -16,20 +14,13 @@ public class Book {
 
 	public Book() {
 		
-		bid = 0;
 		bookName = null;
 		bookAuthor = null;
 		bookCategory = null;
 		bookDescription = null;
 	}
 
-	public int getBid() {
-		return bid;
-	}
 
-	public void setBid(int bid) {
-		this.bid = bid;
-	}
 
 	public String getBookName() {
 		return bookName;

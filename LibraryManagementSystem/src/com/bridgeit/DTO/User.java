@@ -11,7 +11,7 @@ public class User {
 		gender = null;
 	}
 
-	public User(String fullname, String email, String phone, String password, String gender) {
+	public User(String email, String fullname, String phone, String password, String gender) {
 
 		this.fullname = fullname;
 		this.email = email;

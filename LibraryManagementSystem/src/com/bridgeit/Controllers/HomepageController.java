@@ -1,13 +1,25 @@
 package com.bridgeit.Controllers;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.bridgeit.DAO.DBService;
+import com.bridgeit.DAO.DBBookService;
+
+import com.bridgeit.DTO.Book;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Servlet implementation class HomepageController
@@ -31,7 +43,42 @@ public class HomepageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+
+		Gson gson = null;
+		String id = request.getParameter("id");
+		HttpSession httpSession = request.getSession();
+		String email = (String) httpSession.getAttribute("email");
+		System.out.println("GOT THE ID AS: " + id);
+		String category = request.getParameter("category").toLowerCase();
+		System.out.println("reached after caetgory");
+		//httpSession.setAttribute("email", email);
+		System.out.println("reached after httpsesion");
+		DBBookService bookService = new DBBookService();
+		System.out.println("reached after boodservice");
+
+		if (httpSession != null) {
+			System.out.println("Inside Session");
+			// User user = (User) httpSession.getAttribute("user");
+			// email = user.getEmail();
+			List<Book> bookList = new ArrayList<>();
+			try {
+				System.out.println("before data");
+				bookList = bookService.getBooksByEmail(email, category);
+				System.out.println("after data");
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			gson = new GsonBuilder().disableHtmlEscaping().create();
+			JsonElement element = gson.toJsonTree(bookList, new TypeToken<List<Book>>() {
+			}.getType());
+			JsonArray jsonArray = element.getAsJsonArray();
+			response.setContentType("application/json");
+			response.getWriter().print(jsonArray);// print meaning
+			System.out.println("array is: " + jsonArray);
+			System.out.println("Completed !");
+
+		}
 	}
 
 	/**
@@ -41,18 +88,38 @@ public class HomepageController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		DBService service = new DBService();
-		
-		
-		
-		
-		
-		
-		
-		
 
+		/*
+		 * try { listBooks(request, response); } catch (ClassNotFoundException |
+		 * SQLException e) { // TODO Auto-generated catch block e.printStackTrace(); } }
+		 */
+
+		/*
+		 * public void listBooks(HttpServletRequest request, HttpServletResponse
+		 * response) throws ClassNotFoundException, SQLException, IOException { Gson
+		 * gson = null; String id = request.getParameter("id");
+		 * System.out.println("GOT THE ID AS: "+id); // /String category =
+		 * request.getParameter("category").toLowerCase();
+		 * System.out.println("reached after caetgory"); HttpSession httpSession =
+		 * request.getSession(); System.out.println("reached after httpsesion");
+		 * DBBookService bookService = new DBBookService();
+		 * System.out.println("reached after boodservice"); //String email = null;
+		 * 
+		 * if (httpSession != null) { System.out.println("Inside Session"); //User user
+		 * = (User) httpSession.getAttribute("user"); //email = user.getEmail();
+		 * List<Book> bookList = new ArrayList<>(); try {
+		 * System.out.println("before data"); bookList = bookService.getBooksById("2",
+		 * "Science"); System.out.println("after data"); } catch (ClassNotFoundException
+		 * | SQLException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+		 * gson = new GsonBuilder().disableHtmlEscaping().create(); JsonElement element
+		 * = gson.toJsonTree(bookList, new TypeToken<List<Book>>() { }.getType());
+		 * JsonArray jsonArray = element.getAsJsonArray();
+		 * response.setContentType("application/json");
+		 * response.getWriter().print(jsonArray);// print meaning
+		 * System.out.println("array is: "+jsonArray);
+		 * System.out.println("Completed !");
+		 * 
+		 * } }
+		 */
 	}
-
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bridgeit.DAO.DBService;
+import com.bridgeit.DAO.DBUserService;
 import com.bridgeit.DTO.User;
 
 /**
@@ -51,14 +51,17 @@ public class LoginController extends HttpServlet {
 		logger.info("Authenticion begins");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		DBService dbService = new DBService();
+		DBUserService dbService = new DBUserService();
 		RequestDispatcher dispatcher;
 		try {
 			if(dbService.authenticateUser(email, password)) {
-				dbService.getUserObject("email");
+				User user = dbService.getUserObject(email);
+				System.out.println("Username in Controller is: "+user.getFullname());
 				logger.info("Reached in successful...");
 				request.setAttribute("message", "showlist");
-				request.setAttribute("email", email);
+				HttpSession session = request.getSession();
+				session.setAttribute("user", user);
+				session.setAttribute("email", user.getEmail());
 				dispatcher = request.getRequestDispatcher("LibraryHomepage.jsp");
 				dispatcher.forward(request, response);	
 			}

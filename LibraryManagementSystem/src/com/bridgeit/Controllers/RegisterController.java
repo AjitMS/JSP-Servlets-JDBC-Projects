@@ -54,10 +54,10 @@ public class RegisterController extends HttpServlet {
 		String phone = request.getParameter("phone");
 		String gender = request.getParameter("gender");
 
-		DBService service = new DBService();
+		DBUserService service = new DBUserService();
 		MyUtility utilities = new MyUtility();
 		RequestDispatcher dispatcher;
-		User user = new User(fullname, email, phone, password, gender);
+		User user = new User(email, fullname, phone, password, gender);
 		String errorString;
 		try {
 			errorString = utilities.basicValidation(user, conf_password); //adding errors to a string

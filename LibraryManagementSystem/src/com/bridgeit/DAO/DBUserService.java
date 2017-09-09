@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import com.bridgeit.DTO.User;
 
 /**
- * @author Ajit Shikalgar Implmentation of DBServiceInteface
+ * @author Ajit Shikalgar 
+ * Implmentation of DBServiceInteface
  */
-public class DBService implements DBServiceInterface {
+public class DBUserService implements DBUserServiceInterface {
 
 	DBConnection con = new DBConnection();
 	Connection connection;
@@ -43,17 +44,32 @@ public class DBService implements DBServiceInterface {
 		return false;
 	}
 
-	public User getUserObject(String email) throws SQLException, ClassNotFoundException {
+	public User getUserObject(String getEmail) throws SQLException, ClassNotFoundException {
 		connection = con.getConnection();
+		String fullname, email, phone, password, gender;
 		System.out.println("Got connection...");
-		String sql = "select * from appuser";
+		String sql = "select * from userlist";
 		PreparedStatement pstmt = connection.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
+
 		System.out.println("Executing...");
+		User user = null;
 		while (rs.next()) {
 			System.out.println("iterating...");
+			if (getEmail.equalsIgnoreCase(rs.getString(2))) {
+				email = rs.getString(2);
+				fullname = rs.getString(3);
+				phone = rs.getString(4);
+				password = rs.getString(5);
+				gender = rs.getString(6);
+				user = new User(email, fullname, phone, password, gender);
+			}
+		}
+		return user;
 	}
-	}
+
+	
+	
 	/**
 	 * @param user
 	 * @param conf_password

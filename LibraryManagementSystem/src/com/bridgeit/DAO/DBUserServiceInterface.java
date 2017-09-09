@@ -8,7 +8,7 @@ import com.bridgeit.DTO.*;
  * The basic interface to be implemented
  *
  */
-public interface DBServiceInterface {
+public interface DBUserServiceInterface {
 	
 	/**
 	 * @param email
