@@ -24,18 +24,20 @@
 		<li class="nav-item"><a class="nav-link" href="#">Link</a></li>
 		<li class="nav-item"><a class="nav-link " href="#">Link</a></li>
 	</ul>
-	<input type="button" class="btn btn-outline-danger" value=Logout>
+	<form action="LogoutController" method="post">
+		<input type="submit" class="btn btn-outline-danger" value=Logout>
+	</form>
 	</nav>
 
 
-	<!-- Modal -->
+	<!-- listBookModal -->
 
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+	<div class="modal fade" id="listBookModal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">New message</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Category</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -43,24 +45,113 @@
 				</div>
 				<div class="modal-body">
 					<div class="modal-body">
-					
-					<div class="container-fluid" >
-					<table class="table" id="booktable">
-					
-					</table>
-					</div>
 
-				</div>
+						<div class="container-fluid">
+							<table class="table table-striped table-hover" id="booktable">
+
+							</table>
+						</div>
+
+					</div>
 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Send message</button>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<!-- AddBookModal -->
+	<div class="modal fade" id="addBookModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Add new Book</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-body">
+
+						<div class="container-fluid">
+
+							<form id="addbookform">
+								<div class="form-group">
+									<label for="bookname">Book Name</label> <input type="text"
+										class="form-control" id="bookname" name="bookname"
+										aria-describedby="bookname" placeholder="Enter book name">
+								</div>
+								<div class="form-group">
+									<label for="bookauthor">Book Author</label> <input type="text"
+										class="form-control" id="bookauthor" name="bookauthor"
+										placeholder="Enter Book Author">
+								</div>
+
+								<div class="form-group">
+									<label for="bookcategory">Select Category</label> <select
+										class="form-control" id="bookcategory" name="bookcategory">
+										<option>Arts</option>
+										<option>Commerce</option>
+										<option>Science</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="bookdecsription">Book Description</label>
+									<textarea class="form-control" id="bookdescription"
+										name="bookdescription" rows="3"></textarea>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-success btn-block"
+						id="addbooksubmit">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- ShowBookModal -->
+
+<div class="modal fade" id="showBookModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Category</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="modal-body">
+
+						<div class="container-fluid">
+							<table class="table table-striped table-hover" id="showbooktable">
+
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+						
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
 
 	<!-- Cards -->
 	<div
@@ -75,7 +166,7 @@
 						<p class="card-text">With supporting text below as a natural
 							lead-in to additional content.</p>
 						<a href="#" class="btn btn-primary" data-toggle="modal"
-							data-target="#exampleModal" data-whatever="Arts">List Books</a>
+							data-target="#listBookModal" data-whatever="Arts">List Books</a>
 					</div>
 				</div>
 			</div>
@@ -87,7 +178,7 @@
 						<p class="card-text">With supporting text below as a natural
 							lead-in to additional content.</p>
 						<a href="#" class="btn btn-primary" data-toggle="modal"
-							data-target="#exampleModal" data-whatever="Commerce">List
+							data-target="#listBookModal" data-whatever="Commerce">List
 							Books</a>
 					</div>
 				</div>
@@ -101,7 +192,7 @@
 						<p class="card-text">With supporting text below as a natural
 							lead-in to additional content.</p>
 						<a href="#" class="btn btn-primary" data-toggle="modal"
-							data-target="#exampleModal" data-whatever="Science">List
+							data-target="#listBookModal" data-whatever="Science">List
 							Books</a>
 					</div>
 				</div>
@@ -110,7 +201,7 @@
 		<div class="row">
 			<div class="col" align="right">
 				<br /> <input type="button" class="btn btn-outline-success btn-lg"
-					value="+" data-toggle="modal" data-target="#exampleModal"
+					value="+" data-toggle="modal" data-target="#addBookModal"
 					data-whatever="Add new Book">
 			</div>
 		</div>
@@ -120,79 +211,9 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-	
-	<script>
-	
-	$(document).ready(function(){
-		
-		$('#exampleModal').on('show.bs.modal', function (event) {
-			  var button = $(event.relatedTarget) // Button that triggered the modal
-			  var bookCategory = button.data('whatever') // Extract info from data-* attributes
-			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-			  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-			  var modal = $(this)
-			  modal.find('.modal-title').text(bookCategory+'.')
-			
-			console.log('Hell');	
-	    
 
-	   
-			$.ajax({
 
-				// The URL for the request
-				url : "HomepageController",
-
-				// The data to send (will be converted to a query string)
-				data : {
-					id : 123,
-					category : bookCategory
-				},
-
-				// Whether this is a POST or GET request
-				type : "GET",
-
-				// The type of data we expect back
-				dataType : "json",
-			})
-			// Code to run if the request succeeds (is done);
-			// The response is passed to the function
-			.done(function(json) {
-					
-				var html = " <thead> <tr> <th> Book Name </th> <th> Action </th> </tr> </thead> "
-				$.each(json, function(key, value){
-					$('#booktable').html("");
-					html+="<tbody><tr><td>"+value['bookName']+"</td> </tr></tbody>";
-					
-					console.log(' array content is '+value['bookName']+" " +value['bookCategory']);
-				})
-				
-				$('#booktable').html(html);
-				
-				//$('.content').html(value[bookName]+" "+value[bookAuthor]+" "+value[bookCategory]);
-			
-			})
-			// Code to run if the request fails; the raw request and
-			// status codes are passed to the function
-			.fail(function(xhr, status, errorThrown) {
-				alert("Sorry, No books found!");
-				console.log("Error: " + errorThrown);
-				console.log("Status: " + status);
-				console.dir(xhr);
-			})
-			// Code to run regardless of success or failure;
-			/* .always(function(xhr, status) {
-				alert("The request is complete!");
-			}); */
-			
-			
-	});
-
-	});
-			
-	
-	</script>
-	
-<!--  	<script src="Javascript/homepage.js"></script> -->
+	<script src="Javascript/homepage.js"></script>
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"
 		integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="

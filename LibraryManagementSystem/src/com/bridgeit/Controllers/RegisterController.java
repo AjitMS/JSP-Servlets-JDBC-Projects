@@ -67,7 +67,7 @@ public class RegisterController extends HttpServlet {
 					service.registerUser(user);
 					System.out.println("Added !!");
 					HttpSession session = request.getSession(true);
-					session.setAttribute("email", email);
+					session.setAttribute("user", user);
 					request.setAttribute("message", "registersuccess");
 					request.setAttribute("command", "showhomepage");
 					dispatcher = request.getRequestDispatcher("LibraryHomepage.jsp");

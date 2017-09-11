@@ -31,6 +31,7 @@ public class DBUserService implements DBUserServiceInterface {
 
 		connection = con.getConnection();
 		System.out.println("Got connection...");
+		System.out.println("Autnehticating");
 		String sql = "select * from appuser";
 		PreparedStatement pstmt = connection.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();

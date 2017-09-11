@@ -6,7 +6,8 @@ import java.sql.SQLException;
 
 public class DBConnection {
 	private static Connection connection;
-
+	String username;
+	String password;
 	static {
 
 		try {

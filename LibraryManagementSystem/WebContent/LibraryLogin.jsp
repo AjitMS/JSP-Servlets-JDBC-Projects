@@ -47,7 +47,7 @@
 					<div class="col">
 						<h4 id="faded">Use other accounts</h4>
 					</div>
-				</div>
+				</div>	
 				<div class="row  hidden-md-down">
 					<div class="col">
 						<p>you can also sign in using your</p>
@@ -108,7 +108,7 @@
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<strong>Logout Successful !</strong> Logged out successfully !
+						<strong>Logout Successful</strong>You've Logged out successfully!
 					</div>
 				</div>
 				<div class="row">
@@ -129,7 +129,7 @@
 								<a href="#">Forgot password?</a>
 							</div>
 							<div id="register">
-								<a href="#">Register!</a>
+								<a href="LibraryRegister.jsp">Register!</a>
 							</div>
 						</form>
 					</div>
