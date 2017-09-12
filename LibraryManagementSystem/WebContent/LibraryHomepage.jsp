@@ -12,7 +12,7 @@
 	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
 	crossorigin="anonymous">
 
-<title>Library Homepage</title>
+<title>Nerds' Paradise</title>
 </head>
 <body>
 
@@ -33,11 +33,11 @@
 	<!-- listBookModal -->
 
 	<div class="modal fade" id="listBookModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		aria-labelledby="listBookModal" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Category</h5>
+					<h5 class="modal-title" id="listBookModal">Category</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -47,7 +47,7 @@
 					<div class="modal-body">
 
 						<div class="container-fluid">
-							<table class="table table-striped table-hover" id="booktable">
+							<table class="table table-hover" id="booktable">
 
 							</table>
 						</div>
@@ -65,11 +65,11 @@
 
 	<!-- AddBookModal -->
 	<div class="modal fade" id="addBookModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		aria-labelledby="addBookModal" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Add new Book</h5>
+					<h5 class="modal-title" id="addBookModal">Add new Book</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -84,17 +84,19 @@
 								<div class="form-group">
 									<label for="bookname">Book Name</label> <input type="text"
 										class="form-control" id="bookname" name="bookname"
-										aria-describedby="bookname" placeholder="Enter book name">
+										aria-describedby="bookname" placeholder="Enter book name"
+										required>
 								</div>
 								<div class="form-group">
 									<label for="bookauthor">Book Author</label> <input type="text"
 										class="form-control" id="bookauthor" name="bookauthor"
-										placeholder="Enter Book Author">
+										placeholder="Enter Book Author" required>
 								</div>
 
 								<div class="form-group">
 									<label for="bookcategory">Select Category</label> <select
-										class="form-control" id="bookcategory" name="bookcategory">
+										class="form-control" id="bookcategory" name="bookcategory"
+										required>
 										<option>Arts</option>
 										<option>Commerce</option>
 										<option>Science</option>
@@ -104,7 +106,7 @@
 								<div class="form-group">
 									<label for="bookdecsription">Book Description</label>
 									<textarea class="form-control" id="bookdescription"
-										name="bookdescription" rows="3"></textarea>
+										name="bookdescription" rows="3" required></textarea>
 								</div>
 							</form>
 						</div>
@@ -112,20 +114,20 @@
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-success btn-block"
-						id="addbooksubmit">Submit</button>
+						id="addbooksubmit">Add</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-<!-- ShowBookModal -->
+	<!-- UpdateBookModal -->
 
-<div class="modal fade" id="showBookModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="updateBookModal" tabindex="-1" role="dialog"
+		aria-labelledby="updateBookModal" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Category</h5>
+					<h5 class="modal-title" id="updateBookModal">Add new Book</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -135,22 +137,81 @@
 					<div class="modal-body">
 
 						<div class="container-fluid">
-							<table class="table table-striped table-hover" id="showbooktable">
 
-							</table>
+							<form id="updatebookform">
+								<div class="form-group">
+
+									<input type="hidden" class="form-control" id="oldbookname"
+										name="oldbookname" placeholder="Enter book name" value="empty">
+
+									<label for="bookname">Book Name</label> <input type="text"
+										class="form-control" id="bookname" name="bookname"
+										aria-describedby="bookname" placeholder="Enter book name"
+										required>
+								</div>
+								<div class="form-group">
+									<label for="bookauthor">Book Author</label> <input type="text"
+										class="form-control" id="bookauthor" name="bookauthor"
+										placeholder="Enter Book Author" required>
+								</div>
+
+								<div class="form-group">
+									<label for="bookcategory">Select Category</label> <select
+										class="form-control" id="bookcategory" name="bookcategory"
+										required>
+										<option>Arts</option>
+										<option>Commerce</option>
+										<option>Science</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="bookdecsription">Book Description</label>
+									<textarea class="form-control" id="bookdescription"
+										name="bookdescription" rows="3" required></textarea>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-						
+					<button type="submit" class="btn btn-success btn-block"
+						id="updatebooksubmit">Update</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 
+
+	<!-- ShowBookModal -->
+
+	<div class="modal fade" id="showBookModal" tabindex="-1" role="dialog"
+		aria-labelledby="showBookModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="showBookModal">Category</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div class="container-fluid">
+						<table class="table  table-hover" id="showbooktable">
+
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+			</div>
+		</div>
+	</div>
 
 
 	<!-- Cards -->
@@ -211,9 +272,8 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-
-
 	<script src="Javascript/homepage.js"></script>
+
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"
 		integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="

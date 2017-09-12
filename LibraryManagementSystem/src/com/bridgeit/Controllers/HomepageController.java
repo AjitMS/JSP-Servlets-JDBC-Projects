@@ -48,7 +48,7 @@ public class HomepageController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		doPost(request, response);
 	}
 
 	/**
@@ -134,8 +134,8 @@ public class HomepageController extends HttpServlet {
 			}.getType());
 			JsonArray jsonArray = element.getAsJsonArray();
 			response.setContentType("application/json");
+			System.out.println("array is " + jsonArray);
 			response.getWriter().print(jsonArray);// print meaning
-			logger.info("array is {} ", jsonArray);
 			logger.info("Completed !");
 
 		}
@@ -191,83 +191,98 @@ public class HomepageController extends HttpServlet {
 		// httpSession.setAttribute("email", email);
 		logger.info("reached after httpsesion");
 		bookService = new DBBookService();
-		logger.info("reached after boodservice");
+		logger.info("reached after bookservice");
+		if (book.getBookName() != null && book.getBookCategory() != null && book.getBookAuthor() != null) {
+			if (session != null) {
+				if (!(bookService.bookExists(email, book))) {
+					System.out.println("Book exists man");
+					bookService.addBook(email, book);
 
-		if (session != null) {
-			if (!(bookService.bookExists(email, book))) {
-				bookService.addBook(email, book);
+					System.out.println("Inside Session");
+					response.setContentType("text/plain");
+					response.getWriter().print("success");// print meaning
+					// User user = (User) httpSession.getAttribute("user");
+					// email = user.getEmail();
+					/*
+					 * List<Book> bookList = new ArrayList<>(); logger.info("retrieving data...");
+					 * bookList = bookService.getBooksByEmail(email, book.getBookCategory());
+					 * logger.info("Got data!");
+					 * 
+					 * gson = new GsonBuilder().disableHtmlEscaping().create(); JsonElement element
+					 * = gson.toJsonTree(bookList, new TypeToken<List<Book>>() { }.getType());
+					 * JsonArray jsonArray = element.getAsJsonArray();
+					 * response.setContentType("application/json");
+					 * response.getWriter().print(jsonArray);// print meaning
+					 * logger.info("array is {} ", jsonArray);
+					 */
 
-				System.out.println("Inside Session");
-				response.setContentType("text/plain");
-				response.getWriter().print("success adding book");// print meaning
-				// User user = (User) httpSession.getAttribute("user");
-				// email = user.getEmail();
-				/*
-				 * List<Book> bookList = new ArrayList<>(); logger.info("retrieving data...");
-				 * bookList = bookService.getBooksByEmail(email, book.getBookCategory());
-				 * logger.info("Got data!");
-				 * 
-				 * gson = new GsonBuilder().disableHtmlEscaping().create(); JsonElement element
-				 * = gson.toJsonTree(bookList, new TypeToken<List<Book>>() { }.getType());
-				 * JsonArray jsonArray = element.getAsJsonArray();
-				 * response.setContentType("application/json");
-				 * response.getWriter().print(jsonArray);// print meaning
-				 * logger.info("array is {} ", jsonArray);
-				 */
+					logger.info("Completed !");
+				} else {
+					response.setContentType("text/plain");
+					response.getWriter().print("fail");
+					System.out.println("Book doesn't exists man");
+					return;
+				}
 
-				logger.info("Completed !");
-			} else {
-				response.getWriter().print("failure adding book");
-				return;
 			}
-
+		} else {
+			response.setContentType("text/plain");
+			response.getWriter().print("empty");
+			System.out.println("wrong credentials man");
+			return;
 		}
+
 	}
 
 	public static void deleteBook(HttpServletRequest request, HttpServletResponse response)
 			throws ClassNotFoundException, SQLException, IOException {
 
 		session = request.getSession(true);
-		Book book = new Book(request.getParameter("bookname"), request.getParameter("bookauthor"),
-				request.getParameter("bookcategory"), request.getParameter("bookdescription"));
+		String bookname = request.getParameter("bookname");
 		// Gson gson = null;
-		String testid = request.getParameter("id");
+		String confirm = request.getParameter("confirm");
+		System.out.println("confirm : " + confirm);
 		String email = (String) session.getAttribute("email");
-		logger.info("GOT THE ID AS: " + testid);
 		// String category = request.getParameter("category").toLowerCase();
 		logger.info("reached after caetgory");
 		// httpSession.setAttribute("email", email);
 		logger.info("reached after httpsesion");
 		bookService = new DBBookService();
 		logger.info("reached after boodservice");
+		response.setContentType("text/plain");
+		Book book = bookService.getBook(bookname, email);
+		System.out.println("book details: "+book.getBookName()+""+book.getBookCategory());
+		if (confirm.equals("true")) {
+			if (session != null) {
+				if ((bookService.bookExists(email, book))) {
+					bookService.deleteBook(email, book);
 
-		if (session != null) {
-			if ((bookService.bookExists(email, book))) {
-				bookService.deleteBook(email, book);
+					System.out.println("Inside Session");
+					// User user = (User) httpSession.getAttribute("user");
+					// email = user.getEmail();
+					/*
+					 * List<Book> bookList = new ArrayList<>(); logger.info("retrieving data...");
+					 * bookList = bookService.getBooksByEmail(email, category);
+					 * logger.info("Got data!");
+					 * 
+					 * gson = new GsonBuilder().disableHtmlEscaping().create(); JsonElement element
+					 * = gson.toJsonTree(bookList, new TypeToken<List<Book>>() { }.getType());
+					 * JsonArray jsonArray = element.getAsJsonArray();
+					 */
 
-				System.out.println("Inside Session");
-				// User user = (User) httpSession.getAttribute("user");
-				// email = user.getEmail();
-				/*
-				 * List<Book> bookList = new ArrayList<>(); logger.info("retrieving data...");
-				 * bookList = bookService.getBooksByEmail(email, category);
-				 * logger.info("Got data!");
-				 * 
-				 * gson = new GsonBuilder().disableHtmlEscaping().create(); JsonElement element
-				 * = gson.toJsonTree(bookList, new TypeToken<List<Book>>() { }.getType());
-				 * JsonArray jsonArray = element.getAsJsonArray();
-				 */
-				response.setContentType("text/plain");
-				response.getWriter().print("success deleting book");// print meaning
-				// logger.info("array is {} ", jsonArray);
-				logger.info("Completed !");
+					response.getWriter().print("Success");// print meaning
+					// logger.info("array is {} ", jsonArray);
+					logger.info("Completed !");
 
-			} else {
-				response.getWriter().print("success deleting book");
-				return;
+				} else {
+					response.getWriter().print("success deleting book");
+					return;
+				}
 			}
+		} else {
+			response.getWriter().print("success deleting book");
+			return;
 		}
-
 	}
 
 	public static void updateBook(HttpServletRequest request, HttpServletResponse response)
@@ -314,22 +329,39 @@ public class HomepageController extends HttpServlet {
 
 	public static void showBook(HttpServletRequest request, HttpServletResponse response)
 			throws ClassNotFoundException, SQLException, IOException {
-
+		HttpSession session = request.getSession();
+		System.out.println("Inside showBook()");
 		String bookname = request.getParameter("bookname");
-		String email = request.getParameter("email");
+		System.out.println("Bookname from request is: " + bookname);
+		String email = (String) session.getAttribute("email");
+		System.out.println("Bookname from request is: " + email);
 		Book book = bookService.getBook(bookname, email);
-		List<String> bookDetails = new ArrayList<String>();
-		bookDetails.add(book.getBookName());
-		bookDetails.add(book.getBookAuthor());
-		bookDetails.add(book.getBookCategory());
-		bookDetails.add(book.getBookDescription());
+		System.out.println("Book details: " + book.getBookName() + " " + book.getBookAuthor() + ""
+				+ book.getBookCategory() + "" + book.getBookDescription());
+		List<Book> bookList = new ArrayList<Book>();
+		bookList.add(book);
+		/*
+		 * bookDetails.add(book.getBookName()); bookDetails.add(book.getBookAuthor());
+		 * bookDetails.add(book.getBookCategory());
+		 * bookDetails.add(book.getBookDescription());
+		 */
 		Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-		JsonElement element = gson.toJsonTree(bookDetails, new TypeToken<List<String>>() {
+		JsonElement element = gson.toJsonTree(bookList, new TypeToken<List<Book>>() {
 		}.getType());
 		JsonArray jsonArray = element.getAsJsonArray();
 		response.setContentType("application/json");
+		System.out.println("Array is: " + jsonArray);
 		response.getWriter().print(jsonArray);
-		
+
+		/*
+		 * gson = new GsonBuilder().disableHtmlEscaping().create(); JsonElement element
+		 * = gson.toJsonTree(bookList, new TypeToken<List<Book>>() { }.getType());
+		 * JsonArray jsonArray = element.getAsJsonArray();
+		 * response.setContentType("application/json");
+		 * System.out.println("array is "+jsonArray);
+		 * response.getWriter().print(jsonArray);// print meaning
+		 * logger.info("Completed !");
+		 */
 	}
 
 }
