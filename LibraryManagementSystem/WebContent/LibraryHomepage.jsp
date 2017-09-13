@@ -127,7 +127,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="updateBookModal">Add new Book</h5>
+					<h5 class="modal-title" id="updateBookModal">Update Book</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -144,20 +144,20 @@
 									<input type="hidden" class="form-control" id="oldbookname"
 										name="oldbookname" placeholder="Enter book name" value="empty">
 
-									<label for="bookname">Book Name</label> <input type="text"
-										class="form-control" id="bookname" name="bookname"
-										aria-describedby="bookname" placeholder="Enter book name"
+									<label for="ubookname">Book Name</label> <input type="text"
+										class="form-control" id="ubookname" name="ubookname"
+										aria-describedby="ubookname" placeholder="Enter book name"
 										required>
 								</div>
 								<div class="form-group">
-									<label for="bookauthor">Book Author</label> <input type="text"
-										class="form-control" id="bookauthor" name="bookauthor"
+									<label for="ubookauthor">Book Author</label> <input type="text"
+										class="form-control" id="ubookauthor" name="ubookauthor"
 										placeholder="Enter Book Author" required>
 								</div>
 
 								<div class="form-group">
-									<label for="bookcategory">Select Category</label> <select
-										class="form-control" id="bookcategory" name="bookcategory"
+									<label for="ubookcategory">Select Category</label> <select
+										class="form-control" id="ubookcategory" name="ubookcategory"
 										required>
 										<option>Arts</option>
 										<option>Commerce</option>
@@ -166,9 +166,9 @@
 								</div>
 
 								<div class="form-group">
-									<label for="bookdecsription">Book Description</label>
-									<textarea class="form-control" id="bookdescription"
-										name="bookdescription" rows="3" required></textarea>
+									<label for="ubookdecsription">Book Description</label>
+									<textarea class="form-control" id="ubookdescription"
+										name="ubookdescription" rows="3" required></textarea>
 								</div>
 							</form>
 						</div>
@@ -207,7 +207,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" id= "updatebooksubmit" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
 			</div>
 		</div>

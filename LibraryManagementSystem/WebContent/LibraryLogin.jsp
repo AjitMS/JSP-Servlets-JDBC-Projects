@@ -107,6 +107,7 @@
 						<button type="button" class="close" data-dismiss="alert"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
+							
 						</button>
 						<strong>Logout Successful</strong>You've Logged out successfully!
 					</div>
