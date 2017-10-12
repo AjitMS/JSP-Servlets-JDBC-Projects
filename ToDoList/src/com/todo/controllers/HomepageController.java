@@ -1,4 +1,4 @@
-package com.ToDoApp;
+package com.todo.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,23 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-/**
- * Servlet implementation class ToDoController
- */
-@WebServlet("/ToDoController")
-public class ToDoController extends HttpServlet {
+import com.todo.model.Task;
+import com.todo.service.HomepageService;
+
+@WebServlet("/HomepageController")
+public class HomepageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	public HomepageController() {
+
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// REMAINING ONLY GET METHOD FOR UPDATE : PENDING
-		// Update
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	List<Task> taskList;
@@ -37,13 +35,14 @@ public class ToDoController extends HttpServlet {
 			throws ServletException, IOException {
 		session = request.getSession();
 
-		ToDoService service = new ToDoService();
+		HomepageService service = new HomepageService();
 		String action = request.getParameter("action");
 		try {
 			service.loadList(request, response);
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}
+		
 		switch (action) {
 
 		case "add":
@@ -63,7 +62,7 @@ public class ToDoController extends HttpServlet {
 				e1.printStackTrace();
 			}
 			break;
-		case "load":
+		case "show":
 			try {
 				service.loadList(request, response);
 			} catch (ClassNotFoundException | SQLException e1) {

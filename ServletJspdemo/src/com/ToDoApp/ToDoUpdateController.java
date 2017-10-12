@@ -17,12 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/ToDoUpdateController")
 public class ToDoUpdateController extends HttpServlet {
 
-	ToDoDBService serviceDB;
+	ToDoDAO serviceDB;
 
 	@Override
 	public void init() throws ServletException {
 
-		serviceDB = new ToDoDBService();
+		serviceDB = new ToDoDAO();
 
 	}
 
@@ -97,7 +97,7 @@ public class ToDoUpdateController extends HttpServlet {
 		String old_taskName = (String) request.getParameter("old_taskname");
 		String action = (String) request.getParameter("command");
 		Task task = new Task(taskName, date, priority);
-		serviceDB = new ToDoDBService();
+		serviceDB = new ToDoDAO();
 		try {
 			if (action != null) {
 				switch (action) {

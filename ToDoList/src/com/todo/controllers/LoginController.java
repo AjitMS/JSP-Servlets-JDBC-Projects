@@ -1,20 +1,17 @@
-package com.ToDoApp;
+package com.todo.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class ToDoLoginController
- */
-@WebServlet("/ToDoLoginController")
-public class ToDoLoginController extends HttpServlet {
+import com.todo.service.LoginService;
+
+class LoginController {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -28,7 +25,7 @@ public class ToDoLoginController extends HttpServlet {
 		RequestDispatcher dispatcher = null;
 		email = request.getParameter("email");
 		password = request.getParameter("password");
-		ToDoDAO service = new ToDoDAO();
+		LoginService service = new LoginService();
 		try {
 			if (service.authenticateUser(email, password)) {
 				dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
@@ -42,7 +39,5 @@ public class ToDoLoginController extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }

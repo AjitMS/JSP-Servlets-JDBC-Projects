@@ -12,7 +12,7 @@
 	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
 	crossorigin="anonymous">
 
-<title>Nerds' Paradise</title>
+<title>Geeks' Paradise</title>
 </head>
 <body>
 
@@ -122,8 +122,8 @@
 
 	<!-- UpdateBookModal -->
 
-	<div class="modal fade" id="updateBookModal" tabindex="-1" role="dialog"
-		aria-labelledby="updateBookModal" aria-hidden="true">
+	<div class="modal fade" id="updateBookModal" tabindex="-1"
+		role="dialog" aria-labelledby="updateBookModal" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -207,7 +207,8 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" id= "updatebooksubmit" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" id="updatebooksubmit"
+					class="btn btn-secondary" data-dismiss="modal">Close</button>
 
 			</div>
 		</div>

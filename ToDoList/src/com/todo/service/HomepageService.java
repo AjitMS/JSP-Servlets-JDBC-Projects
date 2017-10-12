@@ -1,4 +1,4 @@
-package com.ToDoApp;
+package com.todo.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,16 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class ToDoService {
-	ToDoDAO serviceDB;
+import com.todo.model.Task;
+
+public class HomepageService {
+
 	HttpSession session;
 	RequestDispatcher dispatcher;
+	HomepageService dao;
 
 	public void loadList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
 		session = request.getSession();
-		serviceDB = new ToDoDAO();
-		List<Task> taskList = (List<Task>) serviceDB.loadListDB(); // session.getAttribute("taskList");
+		dao = new HomepageService();
+		List<Task> taskList = (List<Task>) dao.loadListDB(); // session.getAttribute("taskList");
 		if (taskList == null)
 			taskList = new ArrayList<>();
 		request.getServletContext().setAttribute("taskList", taskList);
@@ -33,9 +36,9 @@ public class ToDoService {
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
 
 		session = request.getSession();
-		serviceDB = new ToDoDAO();
+		dao = new HomepageService();
 		String name, priority, date;
-		List<Task> taskList = (List<Task>) serviceDB.loadListDB();
+		List<Task> taskList = (List<Task>) dao.loadListDB();
 		if (taskList == null)
 			taskList = new ArrayList<>();
 		request.getServletContext().setAttribute("taskList", taskList);
@@ -45,9 +48,9 @@ public class ToDoService {
 		date = request.getParameter("date");
 		Task task = new Task(name, priority, date);
 
-		if (serviceDB.isProper(task)) {
+		if (dao.isProper(task)) {
 			try {
-				if (serviceDB.saveListDB(task)) {
+				if (dao.saveListDB(task)) {
 					request.getServletContext().setAttribute("taskList", taskList);// set new list
 					// session.setAttribute("taskList", taskList);
 					dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
@@ -70,11 +73,11 @@ public class ToDoService {
 			throws ServletException, IOException {
 
 		String taskName = request.getParameter("name");
-		serviceDB = new ToDoDAO();
+		dao = new HomepageService();
 
 		try {
-			serviceDB.delete(taskName);
-			List<Task> taskList = serviceDB.loadListDB();
+			dao.delete(taskName);
+			List<Task> taskList = dao.loadListDB();
 			request.getServletContext().setAttribute("taskList", taskList);
 			// session.setAttribute("taskList", taskList);
 			dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
@@ -96,19 +99,18 @@ public class ToDoService {
 		System.out.println("new Date: " + date);
 
 		Task task = new Task(taskName, date, priority);
-		serviceDB = new ToDoDAO();
+		dao = new HomepageService();
 
 		try {
-			serviceDB.update(task, old_taskName);
+			dao.update(task, old_taskName);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		List<Task> taskList = serviceDB.loadListDB();
+		List<Task> taskList = dao.loadListDB();
 		request.getServletContext().setAttribute("taskList", taskList);
 		// session.setAttribute("taskList", taskList);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
 		dispatcher.forward(request, response);
 
 	}
-
 }

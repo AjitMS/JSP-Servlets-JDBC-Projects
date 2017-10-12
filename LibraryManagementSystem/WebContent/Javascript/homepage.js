@@ -218,11 +218,6 @@ $(document).ready(function(){
 	}
 	}	
 	
-	
-	
-	
-	
-	
 	// CONFIG LIST_BOOK_MODAL
 		$('#listBookModal').on('show.bs.modal', function (event) {
 			

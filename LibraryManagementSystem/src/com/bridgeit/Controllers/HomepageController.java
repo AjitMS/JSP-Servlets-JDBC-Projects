@@ -154,6 +154,7 @@ public class HomepageController extends HttpServlet {
 
 		session = request.getSession(true);
 		String dataString = request.getParameter("dataString");
+		dataString  = dataString.replaceAll("%20"," ");
 		// space is denoted as %20 in dataString from AJAX Call
 		System.out.println("dataString without special "+dataString);
 		// two parameters are joined using & symbol
@@ -354,6 +355,7 @@ public class HomepageController extends HttpServlet {
 		}
 	}
 
+	//
 	public static void updateBook1(HttpServletRequest request, HttpServletResponse response)
 			throws ClassNotFoundException, SQLException, IOException {
 
