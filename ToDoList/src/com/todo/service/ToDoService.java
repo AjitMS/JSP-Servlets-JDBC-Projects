@@ -11,22 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.todo.dao.ToDoDAO;
 import com.todo.model.Task;
 
-public class HomepageService {
-
+public class ToDoService {
+	ToDoDAO dao;
 	HttpSession session;
 	RequestDispatcher dispatcher;
-	HomepageService dao;
 
 	public void loadList(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
 		session = request.getSession();
-		dao = new HomepageService();
+		dao = new ToDoDAO();
 		List<Task> taskList = (List<Task>) dao.loadListDB(); // session.getAttribute("taskList");
 		if (taskList == null)
 			taskList = new ArrayList<>();
-		request.getServletContext().setAttribute("taskList", taskList);
+		request.setAttribute("taskList", taskList);
 		// session.setAttribute("taskList", taskList);
 		dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
 		dispatcher.forward(request, response);
@@ -36,9 +36,10 @@ public class HomepageService {
 			throws ServletException, IOException, ClassNotFoundException, SQLException {
 
 		session = request.getSession();
-		dao = new HomepageService();
+		dao = new ToDoDAO();
 		String name, priority, date;
 		List<Task> taskList = (List<Task>) dao.loadListDB();
+		System.out.println("Old Task List: ");
 		if (taskList == null)
 			taskList = new ArrayList<>();
 		request.getServletContext().setAttribute("taskList", taskList);
@@ -50,19 +51,21 @@ public class HomepageService {
 
 		if (dao.isProper(task)) {
 			try {
-				if (dao.saveListDB(task)) {
-					request.getServletContext().setAttribute("taskList", taskList);// set new list
-					// session.setAttribute("taskList", taskList);
-					dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
-					dispatcher.forward(request, response);
-				} else {
-					request.getServletContext().setAttribute("taskList", taskList);// set old list
-					request.setAttribute("error", "error");// send error indicator
-					// session.setAttribute("taskList", taskList);
-					dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
-					dispatcher.forward(request, response);
-				}
-			} catch (ClassNotFoundException | SQLException e) {
+
+				dao.saveListDB(task);
+				taskList = dao.loadListDB();
+				request.getServletContext().setAttribute("taskList", taskList);// set new list
+				System.out.println("New Task List: ");
+				// session.setAttribute("taskList", taskList);
+				dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+				dispatcher.forward(request, response);
+
+			} catch (Exception e) {
+				request.getServletContext().setAttribute("taskList", taskList);// set old list
+				request.setAttribute("error", "error");// send error indicator
+				// session.setAttribute("taskList", taskList);
+				dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
+				dispatcher.forward(request, response);
 				e.printStackTrace();
 			}
 		}
@@ -72,20 +75,20 @@ public class HomepageService {
 	public void deleteTask(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String taskName = request.getParameter("name");
-		dao = new HomepageService();
+		String taskName = (String) request.getAttribute("name");
+		System.out.println("taskName in param is: "+taskName);
+		dao = new ToDoDAO();
 
 		try {
 			dao.delete(taskName);
 			List<Task> taskList = dao.loadListDB();
-			request.getServletContext().setAttribute("taskList", taskList);
+			request.setAttribute("taskList", taskList);
 			// session.setAttribute("taskList", taskList);
 			dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
 			dispatcher.forward(request, response);
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}
-
 	}
 
 	public void updateTask(HttpServletRequest request, HttpServletResponse response)
@@ -99,7 +102,7 @@ public class HomepageService {
 		System.out.println("new Date: " + date);
 
 		Task task = new Task(taskName, date, priority);
-		dao = new HomepageService();
+		dao = new ToDoDAO();
 
 		try {
 			dao.update(task, old_taskName);
@@ -113,4 +116,5 @@ public class HomepageService {
 		dispatcher.forward(request, response);
 
 	}
+
 }

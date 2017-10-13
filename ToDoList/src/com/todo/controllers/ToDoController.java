@@ -1,4 +1,4 @@
-package com.ToDoApp;
+package com.todo.controllers;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.todo.dao.ToDoDAO;
+import com.todo.model.Task;
+import com.todo.service.ToDoService;
 
 /**
  * Servlet implementation class ToDoController

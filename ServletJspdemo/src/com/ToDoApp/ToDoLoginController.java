@@ -2,6 +2,8 @@ package com.ToDoApp;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,14 +25,18 @@ public class ToDoLoginController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		ToDoDAO dao = new ToDoDAO();
 		String email, password;
+		List <Task>taskList = new ArrayList<>();
 		RequestDispatcher dispatcher = null;
 		email = request.getParameter("email");
 		password = request.getParameter("password");
 		ToDoDAO service = new ToDoDAO();
 		try {
 			if (service.authenticateUser(email, password)) {
+				taskList = dao.loadListDB();
+				request.setAttribute("taskList", taskList);
 				dispatcher = request.getRequestDispatcher("ToDoHomepage.jsp");
 				dispatcher.forward(request, response);
 			} else {
